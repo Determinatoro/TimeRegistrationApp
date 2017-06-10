@@ -196,6 +196,7 @@
                             <ContentPresenter 
                                     x:Name="myContentPresenter"                                   
                                     VerticalAlignment="Center" 
+                                    Margin="0, 0, 0, 1"
                                     HorizontalAlignment="Center"                                 
                                     Content="{TemplateBinding  Content}" 
                                     TextBlock.Foreground="{TemplateBinding Foreground}" 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRegistrationApp"
         mc:Ignorable="d"
-       Title="TimeRegistrationApp - Login" Height="200" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+       Title="Login" Height="200" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
         <Image Source="Resources/background.png" Stretch="Fill"/>
         <Grid 
@@ -42,7 +42,7 @@
                 Tag="Password"
                 VerticalContentAlignment="Center"
                 FontSize="12"
-                Style="{StaticResource stylePasswordBoxWaterMark}"
+                Style="{StaticResource stylePasswordBoxWaterMark}" KeyDown="tbPassword_KeyDown"                
                 />
             
             <!--LOGIN-->
@@ -54,7 +54,8 @@
                 Content="Login"
                 Foreground="#444444"
                 Background="{StaticResource brushGrayBackground}"
-                Style="{StaticResource styleButton}" Click="btnLogin_Click"
+                Style="{StaticResource styleButton}" 
+                Click="btnLogin_Click"
                 />
             
             <!--MESSAGE-->

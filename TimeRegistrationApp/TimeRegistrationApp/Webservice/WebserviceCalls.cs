@@ -11,9 +11,20 @@ namespace TimeRegistrationApp.Webservice
 {
     public static class WebserviceCalls
     {
+        #region VARIABLES
+
+        // Webservice URL
         private static string webservice = "http://jako3498.web.techcollege.dk/TimeRegistration.asmx/";
+        // Web client used to call webservice
         private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8 };
 
+        #endregion
+
+        #region WEBSERVICE CALL AND PARSE METHODS
+
+        /***********************************************************/
+        // Call webservice method and get JSON back
+        /***********************************************************/
         private static WebserviceObject CallWebservice(string method)
         {
             string json = "";
@@ -32,6 +43,9 @@ namespace TimeRegistrationApp.Webservice
             return new WebserviceObject(true, json);
         }
 
+        /***********************************************************/
+        // Parse dictionary into object
+        /***********************************************************/
         private static Object GetObject(this Dictionary<string, object> dict, Type type)
         {
             var obj = Activator.CreateInstance(type);
@@ -43,18 +57,21 @@ namespace TimeRegistrationApp.Webservice
 
                 object value = kv.Value;
                 if (value is Dictionary<string, object>)
-                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType); // <= This line
+                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType); 
 
                 prop.SetValue(obj, value, null);
             }
             return obj;
         }
 
-        private static WebserviceObject GetWebserviceObject(string json, bool isListResponse, Type type)
+        /***********************************************************/
+        // Get data from webservice call either a list or an object
+        /***********************************************************/
+        private static WebserviceObject GetWebserviceObject(string json, Type type)
         {
             WebserviceObject wsObj = new JavaScriptSerializer().Deserialize<WebserviceObject>(json);
 
-            if (isListResponse)
+            if (wsObj.Response as object[] != null)
             {
                 List<object> tempList = new List<object>();
 
@@ -73,15 +90,19 @@ namespace TimeRegistrationApp.Webservice
             return wsObj;
         }
 
+        #endregion
+
+        #region WEBSERVICE CALLS
+
         /***********************************************************/
-        // CHECK LOGIN - Username and password as input
+        // CHECK LOGIN - Username, Password
         /***********************************************************/
         public static WebserviceObject CheckLogin(string username, string password)
         {
             WebserviceObject wsObj = CallWebservice(string.Format("CheckLogin?Username={0}&Password={1}", username, password));            
 
             if (wsObj.Success)
-                wsObj = GetWebserviceObject((string)wsObj.Response, false, typeof(User));
+                wsObj = GetWebserviceObject((string)wsObj.Response, typeof(User));
 
             return wsObj;
         }
@@ -94,9 +115,13 @@ namespace TimeRegistrationApp.Webservice
             WebserviceObject wsObj = CallWebservice("GetUsers");
 
             if (wsObj.Success)
-                wsObj = GetWebserviceObject((string)wsObj.Response, true, typeof(User));
+                wsObj = GetWebserviceObject((string)wsObj.Response, typeof(User));
 
             return wsObj;
         }
+
+
+
+        #endregion
     }
 }

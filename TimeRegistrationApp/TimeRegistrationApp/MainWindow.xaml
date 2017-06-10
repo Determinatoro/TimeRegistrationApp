@@ -8,7 +8,176 @@
         Title="TimeRegistrationApp - Main" Height="500" Width="750" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
         <Image Source="Resources/background.png" Stretch="Fill"/>
-        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <!--LOG OUT-->
+                <Button
+                    Name="btnLogOut"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Row="0"
+                    Content="Log out"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnLogOut_Click" 
+                    />
+
+                <ListBox
+                    Name="lbOrders"
+                    Grid.Row="1"
+                    Margin="1"
+                    />
+
+                <!--START / CONTINUE-->
+                <Button
+                    Name="btnStartContinue"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Row="2"
+                    Content="Start / Continue"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" 
+                    />
+
+                <!--STOP-->
+                <Button
+                    Name="btnStop"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Row="3"
+                    Content="Stop"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" 
+                    />
+
+                <!--ADMIN CONTROLS-->
+                <Button
+                    Name="btnAdminControls"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Row="5"
+                    Content="Admin controls"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}"
+                    />
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--ORDER ID-->
+                        <TextBox 
+                        Name="tbOrderId"
+                        Margin="1"                
+                        BorderBrush="#444444"
+                        Tag="Order ID"
+                        Style="{StaticResource styleTextBoxWaterMark}"
+                        />
+                        
+                    </Grid>
+
+                    <Label                        
+                        FontWeight="SemiBold"
+                        Grid.Column="1"
+                        Content="Description"
+                        Foreground="#444444"
+                        />
+
+                    <Label                        
+                        FontWeight="SemiBold"
+                        Grid.Column="2"
+                        Content="Role"
+                        Foreground="#444444"
+                        />
+
+                    <Label
+                        Grid.Row="3"
+                        FontWeight="SemiBold"
+                        Content="Start time"
+                        Foreground="#444444"
+                        />
+
+                    <!--START TIME-->
+                    <TextBox 
+                        Name="tbStartTime"
+                        Margin="1"       
+                        Grid.Row="4"
+                        BorderBrush="#444444"
+                        Tag=""
+                        Style="{StaticResource styleTextBoxWaterMark}"
+                        />
+
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        FontWeight="SemiBold"
+                        Content="End time"
+                        Foreground="#444444"
+                        />
+
+                    <!--END TIME-->
+                    <TextBox 
+                        Name="tbEndTime"
+                        Margin="1"       
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        BorderBrush="#444444"
+                        Tag=""
+                        Style="{StaticResource styleTextBoxWaterMark}"
+                        />
+                    
+                    
+
+                </Grid>
+
+                <DataGrid
+                    Grid.Row="1"
+                    Margin="1"
+                    Background="Transparent"
+                    />
+
+            </Grid>
+        </Grid>
         
     </Grid>
 </Window>

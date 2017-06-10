@@ -23,26 +23,29 @@ namespace TimeRegistrationApp
         public LoginWindow()
         {
             InitializeComponent();
+
+            tbUsername.Focus();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (tbUsername.Text != "" && tbPassword.Password != "")
-            {
-                WebserviceObject wsObj = WebserviceCalls.CheckLogin(tbUsername.Text, tbPassword.Password);
+            WebserviceObject wsObj = WebserviceCalls.CheckLogin(tbUsername.Text, tbPassword.Password);
 
-                if (wsObj.Success)
-                {
-                    MainWindow mainWindow = new MainWindow((User)wsObj.Response);
-                    mainWindow.Show();
-                    this.Close();
-                    // Go to next window
-                }
-                else
-                    MessageBox.Show(wsObj.Response.ToString());
+            if (wsObj.Success)
+            {
+                MainWindow mainWindow = new MainWindow((User)wsObj.Response);
+                mainWindow.Show();
+                this.Close();
+                // Go to next window
             }
             else
-                MessageBox.Show("Please write an username and/or password");
+                MessageBox.Show(wsObj.Response.ToString());
+        }
+
+        private void tbPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                btnLogin_Click(null, null);
         }
     }
 }

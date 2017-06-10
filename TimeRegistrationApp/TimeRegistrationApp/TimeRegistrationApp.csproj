@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Webservice\TimeRegistration.cs" />
     <Compile Include="Webservice\User.cs" />
     <Compile Include="Webservice\WebserviceCalls.cs" />
     <Compile Include="Webservice\WebserviceObject.cs" />

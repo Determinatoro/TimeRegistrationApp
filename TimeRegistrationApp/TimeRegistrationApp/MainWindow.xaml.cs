@@ -25,7 +25,17 @@ namespace TimeRegistrationApp
         {
             InitializeComponent();
 
-            WebserviceObject wsObj = WebserviceCalls.GetUsers();
+            Title = string.Format("Welcome {0} {1}", user.FirstName, user.LastName);
+
+            if (!user.Admin)
+                btnAdminControls.Visibility = Visibility.Hidden;
+        }
+
+        private void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
         }
     }
 }
