@@ -57,7 +57,7 @@ namespace TimeRegistrationApp.Webservice
 
                 object value = kv.Value;
                 if (value is Dictionary<string, object>)
-                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType); 
+                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType);
 
                 prop.SetValue(obj, value, null);
             }
@@ -71,19 +71,18 @@ namespace TimeRegistrationApp.Webservice
         {
             WebserviceObject wsObj = new JavaScriptSerializer().Deserialize<WebserviceObject>(json);
 
-            if (wsObj.Response as object[] != null)
+            if (wsObj.Success)
             {
-                List<object> tempList = new List<object>();
+                if (wsObj.Response as object[] != null)
+                {
+                    List<object> tempList = new List<object>();
 
-                foreach (var item in (object[])wsObj.Response)
-                    tempList.Add(GetObject((Dictionary<string, object>)item, type));
+                    foreach (var item in (object[])wsObj.Response)
+                        tempList.Add(GetObject((Dictionary<string, object>)item, type));
 
-                if (wsObj.Success)
                     wsObj.Response = tempList;
-            }
-            else
-            {
-                if (wsObj.Success)
+                }
+                else
                     wsObj.Response = GetObject((Dictionary<string, object>)wsObj.Response, type);
             }
 
@@ -99,7 +98,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         public static WebserviceObject CheckLogin(string username, string password)
         {
-            WebserviceObject wsObj = CallWebservice(string.Format("CheckLogin?Username={0}&Password={1}", username, password));            
+            WebserviceObject wsObj = CallWebservice(string.Format("CheckLogin?Username={0}&Password={1}", username, password));
 
             if (wsObj.Success)
                 wsObj = GetWebserviceObject((string)wsObj.Response, typeof(User));
