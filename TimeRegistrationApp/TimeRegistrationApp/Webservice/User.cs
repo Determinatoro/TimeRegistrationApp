@@ -10,7 +10,7 @@ namespace TimeRegistrationApp.Webservice
     {
         private int userId;
         private string firstName;
-        private string lastName;
+        private string lastName;        
         private bool admin;
 
         public User(int userId, string firstName, string lastName, bool admin)
