@@ -12,6 +12,25 @@ namespace TimeRegistrationApp.Webservice
     public static class WebserviceCalls
     {
         private static string webservice = "http://jako3498.web.techcollege.dk/TimeRegistration.asmx/";
+        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8 };
+
+        private static WebserviceObject CallWebservice(string method)
+        {
+            string json = "";
+
+            try
+            {
+                using (wc)
+                    json = wc.DownloadString(webservice + method);
+            }
+            catch (Exception e)
+            {
+                json = e.Message;
+                return new WebserviceObject(false, json);
+            }
+
+            return new WebserviceObject(true, json);
+        }
 
         private static Object GetObject(this Dictionary<string, object> dict, Type type)
         {
@@ -24,34 +43,58 @@ namespace TimeRegistrationApp.Webservice
 
                 object value = kv.Value;
                 if (value is Dictionary<string, object>)
-                {
                     value = GetObject((Dictionary<string, object>)value, prop.PropertyType); // <= This line
-                }
 
                 prop.SetValue(obj, value, null);
             }
             return obj;
         }
 
-        //CheckLogin
-        public static WebserviceObject CheckLogin(string username, string password)
+        private static WebserviceObject GetWebserviceObject(string json, bool isListResponse, Type type)
         {
-            string json = "";
-
-            try
-            {
-                using (WebClient wc = new WebClient())
-                    json = wc.DownloadString(string.Format(webservice + "CheckLogin?Username={0}&Password={1}", username, password));
-            }
-            catch (Exception e) { json = e.Message; }
-
             WebserviceObject wsObj = new JavaScriptSerializer().Deserialize<WebserviceObject>(json);
 
-            if (wsObj.Success)
+            if (isListResponse)
             {
-                User user = (User)GetObject((Dictionary<string, object>)wsObj.Response, typeof(User));
-                wsObj.Response = user;
+                List<object> tempList = new List<object>();
+
+                foreach (var item in (object[])wsObj.Response)
+                    tempList.Add(GetObject((Dictionary<string, object>)item, type));
+
+                if (wsObj.Success)
+                    wsObj.Response = tempList;
             }
+            else
+            {
+                if (wsObj.Success)
+                    wsObj.Response = GetObject((Dictionary<string, object>)wsObj.Response, type);
+            }
+
+            return wsObj;
+        }
+
+        /***********************************************************/
+        // CHECK LOGIN - Username and password as input
+        /***********************************************************/
+        public static WebserviceObject CheckLogin(string username, string password)
+        {
+            WebserviceObject wsObj = CallWebservice(string.Format("CheckLogin?Username={0}&Password={1}", username, password));            
+
+            if (wsObj.Success)
+                wsObj = GetWebserviceObject((string)wsObj.Response, false, typeof(User));
+
+            return wsObj;
+        }
+
+        /***********************************************************/
+        // GetUsers - No parameters
+        /***********************************************************/
+        public static WebserviceObject GetUsers()
+        {
+            WebserviceObject wsObj = CallWebservice("GetUsers");
+
+            if (wsObj.Success)
+                wsObj = GetWebserviceObject((string)wsObj.Response, true, typeof(User));
 
             return wsObj;
         }

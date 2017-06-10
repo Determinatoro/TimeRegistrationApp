@@ -25,7 +25,7 @@ namespace TimeRegistrationApp
         {
             InitializeComponent();
 
-            
+            WebserviceObject wsObj = WebserviceCalls.GetUsers();
         }
     }
 }
