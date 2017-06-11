@@ -28,7 +28,7 @@ namespace TimeRegistrationApp
             Title = string.Format("Welcome {0} {1}", user.FirstName, user.LastName);
 
             if (!user.Admin)
-                btnAdminControls.Visibility = Visibility.Hidden;
+                btnAdminControls.Visibility = Visibility.Hidden;            
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
