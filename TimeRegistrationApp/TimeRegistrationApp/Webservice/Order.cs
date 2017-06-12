@@ -1,13 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TimeRegistrationApp.Webservice
 {
-    public class Order
+    public class Order : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+
         private int orderId;
         private string orderName;
         private string description;
@@ -24,6 +35,7 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 orderId = value;
+                NotifyPropertyChanged("OrderId");
             }
         }
 
@@ -37,6 +49,7 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 orderName = value;
+                NotifyPropertyChanged("OrderName");
             }
         }
 
@@ -50,6 +63,7 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 description = value;
+                NotifyPropertyChanged("Description");
             }
         }
 
@@ -63,6 +77,7 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 customerName = value;
+                NotifyPropertyChanged("CustomerName");
             }
         }
 
@@ -76,6 +91,7 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 roleName = value;
+                NotifyPropertyChanged("RoleName");
             }
         }
 

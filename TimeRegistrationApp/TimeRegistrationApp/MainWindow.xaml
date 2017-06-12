@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRegistrationApp"
+        xmlns:webservice="clr-namespace:TimeRegistrationApp.Webservice"
         mc:Ignorable="d"
-        Title="TimeRegistrationApp - Main" Height="500" Width="750" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+        Title="TimeRegistrationApp - Main" Height="500" Width="900" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Window.Resources>
         <ResourceDictionary>
-
             <!-- STYLE DATAGRID COLUMN HEADER -->
             <Style x:Key="{x:Type DataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="Background" Value="{StaticResource brushGrayBackground}" />
@@ -22,7 +22,6 @@
                 <Setter Property="MinWidth" Value="0" />
                 <Setter Property="MinHeight" Value="30" />
             </Style>
-
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -56,11 +55,47 @@
                     Style="{StaticResource styleButton}" Click="btnLogOut_Click" 
                     />
 
-                <ListBox
-                    Name="lbOrders"
+                <DataGrid
+                    Name="dgOrders"
                     Grid.Row="1"
-                    Margin="1"
-                    />
+                    Margin="1"                    
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"
+                    >
+                    <!--Columns-->
+                    <DataGrid.Columns>
+                        <!--Start time-->
+                        <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Content="{Binding Path=OrderName}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--End time-->
+                        <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        Name="tbEndTime"                                                                                       
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Description}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
 
                 <!--START / CONTINUE-->
                 <Button
@@ -215,7 +250,7 @@
                         <!--End time-->
                         <DataGridTemplateColumn Header="End time" IsReadOnly="True" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:Name="dataTemplateOn">
+                                <DataTemplate>
                                     <TextBox 
                                         Name="tbEndTime"                                                                                       
                                         BorderBrush="#444444"                                        

@@ -47,10 +47,7 @@ namespace TimeRegistrationApp
             ObservableCollection<object> oList;
             oList = new ObservableCollection<object>(orderList);
 
-            lbOrders.DataContext = oList;
-
-            Binding binding = new Binding();
-            lbOrders.SetBinding(ListBox.ItemsSourceProperty, binding);
+            dgOrders.ItemsSource = oList;            
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
