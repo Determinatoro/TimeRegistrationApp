@@ -22,32 +22,27 @@ namespace TimeRegistrationApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private User user;
+        private Order order;
+
         public MainWindow(User user)
         {
             InitializeComponent();
+
+            this.user = user;
 
             Title = string.Format("Welcome {0} {1}", user.FirstName, user.LastName);
 
             if (!user.Admin)
                 btnAdminControls.Visibility = Visibility.Hidden;
+        }
 
-
-            WebserviceObject wsObj = WebserviceCalls.GetOrders(user.UserId);
-
-            List<Order> orderList = new List<Order>();
-
-            if (wsObj.Success)
-            {
-
-                foreach (Order obj in (List<object>)wsObj.Response)
-                    orderList.Add(obj);
-            }
-            else MessageBox.Show(wsObj.Response.ToString());
-
-            ObservableCollection<object> oList;
-            oList = new ObservableCollection<object>(orderList);
-
-            dgOrders.ItemsSource = oList;            
+        public void SetOrderId(Order order)
+        {
+            this.order = order;
+            tbOrderId.Text = order.OrderId.ToString();
+            lbDescription.Content = order.Description;
+            lbRole.Content = order.RoleName;
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
@@ -55,6 +50,27 @@ namespace TimeRegistrationApp
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.Show();
             this.Close();
+        }
+
+        private void btnSearchOrders_Click(object sender, RoutedEventArgs e)
+        {
+            OrdersWindow ordersWindow = new OrdersWindow(this, user);
+            ordersWindow.ShowDialog();
+        }
+
+        private void tbOrderId_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                int orderId = int.Parse(tbOrderId.Text);
+
+                WebserviceObject wsObj = WebserviceCalls.GetOrder(user.UserId, orderId);
+
+                if (wsObj.Success)
+                    SetOrderId((Order)wsObj.Response);
+                else
+                    MessageBox.Show(wsObj.Response.ToString());
+            }
         }
     }
 }

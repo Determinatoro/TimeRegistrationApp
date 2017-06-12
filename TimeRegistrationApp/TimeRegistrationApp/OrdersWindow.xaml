@@ -1,0 +1,121 @@
+﻿<Window x:Class="TimeRegistrationApp.OrdersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeRegistrationApp"
+        mc:Ignorable="d"
+               Title="Orders" Height="500" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+    <Grid>
+        <Image Source="Resources/background.png" Stretch="Fill"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            
+            <DataGrid
+                    Name="dgOrders"                    
+                    Margin="1"                    
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"
+                    >
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="dgOrders_MouseDoubleClick"/>
+                    </Style>
+                </DataGrid.Resources>
+                <!--Columns-->
+                <DataGrid.Columns>
+                    <!--ID-->
+                    <DataGridTemplateColumn Header="ID" IsReadOnly="True" Width="0.5*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label 
+                                        Content="{Binding Path=OrderId}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--Name-->
+                    <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label 
+                                        Content="{Binding Path=OrderName}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--Description-->
+                    <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                        Name="tbEndTime"                                                                                       
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Description}"
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--RoleName-->
+                    <DataGridTemplateColumn Header="Role name" IsReadOnly="True" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label 
+                                        Content="{Binding Path=RoleName}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--CREATE ORDER-->
+                <Button
+                    Name="btnCreateOrder"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Row="5"
+                    BorderBrush="#444444"
+                    Content="Create order"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" 
+                    />                
+
+                <!--CREATE ORDER-->
+                <Button
+                    Name="btnDeleteOrder"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Column="1"
+                    BorderBrush="#444444"
+                    Content="Delete order"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" 
+                    />
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -19,7 +19,20 @@
         </LinearGradientBrush>
 
         <!--#endregion-->
-        
+
+        <Style x:Key="{x:Type DataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="{StaticResource brushGrayBackground}" />
+            <Setter Property="Foreground" Value="#444444" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#444444" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="30" />
+        </Style>
+
         <!--#region STYLE PASSWORDBOX WATERMARK-->
         <Style x:Key="stylePasswordBoxWaterMark"
     	TargetType="{x:Type PasswordBox}">

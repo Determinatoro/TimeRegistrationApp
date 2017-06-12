@@ -120,11 +120,24 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
-        // GetUsers - userId
+        // GetOrders - userId
         /***********************************************************/
         public static WebserviceObject GetOrders(int userId)
         {
             WebserviceObject wsObj = CallWebservice(string.Format("GetOrders?userId={0}", userId));
+
+            if (wsObj.Success)
+                wsObj = GetWebserviceObject((string)wsObj.Response, typeof(Order));
+
+            return wsObj;
+        }
+
+        /***********************************************************/
+        // GetOrders - userId, orderId
+        /***********************************************************/
+        public static WebserviceObject GetOrder(int userId, int orderId)
+        {
+            WebserviceObject wsObj = CallWebservice(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId));
 
             if (wsObj.Success)
                 wsObj = GetWebserviceObject((string)wsObj.Response, typeof(Order));
