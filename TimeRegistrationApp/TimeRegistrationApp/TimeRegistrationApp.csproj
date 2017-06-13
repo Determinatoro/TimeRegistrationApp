@@ -68,6 +68,7 @@
     <Compile Include="Webservice\Customer.cs" />
     <Compile Include="Webservice\Order.cs" />
     <Compile Include="Webservice\OrderRole.cs" />
+    <Compile Include="Webservice\Role.cs" />
     <Compile Include="Webservice\TimeRegistration.cs" />
     <Compile Include="Webservice\User.cs" />
     <Compile Include="Webservice\WebserviceCalls.cs" />
