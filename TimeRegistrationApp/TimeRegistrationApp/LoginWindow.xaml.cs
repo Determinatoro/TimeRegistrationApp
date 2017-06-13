@@ -25,6 +25,8 @@ namespace TimeRegistrationApp
             InitializeComponent();
 
             tbUsername.Focus();
+
+            var test = WebserviceCalls.GetTimeRegistrations(8);
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
