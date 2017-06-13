@@ -173,7 +173,7 @@
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--END TIME HEADER-->
+                        <!--DATE PICKER START TIME-->
                         <DatePicker
                             Name="dpStartTimeDate"
                             FontWeight="SemiBold"

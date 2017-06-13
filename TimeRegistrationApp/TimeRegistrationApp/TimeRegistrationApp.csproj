@@ -65,6 +65,7 @@
     <Compile Include="OrdersWindow.xaml.cs">
       <DependentUpon>OrdersWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Webservice\Customer.cs" />
     <Compile Include="Webservice\Order.cs" />
     <Compile Include="Webservice\TimeRegistration.cs" />
     <Compile Include="Webservice\User.cs" />
