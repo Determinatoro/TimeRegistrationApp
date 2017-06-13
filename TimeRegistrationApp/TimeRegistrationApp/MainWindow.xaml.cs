@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,6 +36,15 @@ namespace TimeRegistrationApp
 
             if (!user.Admin)
                 btnAdminControls.Visibility = Visibility.Hidden;
+
+            dpStartTimeDate.SelectedDate = DateTime.Now;
+            dpEndTimeDate.SelectedDate = DateTime.Now;
+
+            tbStartTimeHour.Text = DateTime.Now.ToString("HH");
+            tbStartTimeMinutes.Text = DateTime.Now.ToString("mm");
+
+            tbStartTimeHour.MaxLength = 2;
+            tbStartTimeMinutes.MaxLength = 2;
         }
 
         public void SetOrderId(Order order)
@@ -71,6 +81,60 @@ namespace TimeRegistrationApp
                 else
                     MessageBox.Show(wsObj.Response.ToString());
             }
+        }     
+
+        private void tbTime_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void tbTime_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Copy ||
+                e.Command == ApplicationCommands.Cut ||
+                e.Command == ApplicationCommands.Paste)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void tbTime_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab)
+            {
+                var tb = sender as TextBox;
+
+                switch (tb.Name)
+                {
+                    case "tbStartTimeHour":
+                        tbStartTimeMinutes.Focus();
+                        tbStartTimeMinutes.SelectAll();
+                        break;
+                    case "tbStartTimeMinutes":
+                        tbStartTimeHour.Focus();
+                        tbStartTimeHour.SelectAll();
+                        break;
+                    case "tbEndTimeHour":
+                        tbStartTimeMinutes.Focus();
+                        tbStartTimeMinutes.SelectAll();
+                        break;
+                    case "tbEndTimeMinuutes":
+                        tbStartTimeMinutes.Focus();
+                        tbStartTimeMinutes.SelectAll();
+                        break;
+                }
+                
+
+                e.Handled = true;
+            }
+        }
+
+        private void tbTime_Lostfocus(object sender, RoutedEventArgs e)
+        {
+            var tb = sender as TextBox;
+
+            tb.Text = tb.Text.PadLeft(2, '0');
         }
     }
 }

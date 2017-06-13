@@ -88,6 +88,16 @@ namespace TimeRegistrationApp.Webservice
 
             return wsObj;
         }
+    
+        private static WebserviceObject GetWebserviceObjectAfterCall(string query, Type type)
+        {
+            WebserviceObject wsObj = CallWebservice(query);
+
+            if (wsObj.Success)
+                wsObj = GetWebserviceObject((string)wsObj.Response, type);
+
+            return wsObj;
+        }
 
         #endregion
 
@@ -98,12 +108,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         public static WebserviceObject CheckLogin(string username, string password)
         {
-            WebserviceObject wsObj = CallWebservice(string.Format("CheckLogin?Username={0}&Password={1}", username, password));
-
-            if (wsObj.Success)
-                wsObj = GetWebserviceObject((string)wsObj.Response, typeof(User));
-
-            return wsObj;
+            return GetWebserviceObjectAfterCall(string.Format("CheckLogin?Username={0}&Password={1}", username, password), typeof(User));
         }
 
         /***********************************************************/
@@ -111,12 +116,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         public static WebserviceObject GetUsers()
         {
-            WebserviceObject wsObj = CallWebservice("GetUsers");
-
-            if (wsObj.Success)
-                wsObj = GetWebserviceObject((string)wsObj.Response, typeof(User));
-
-            return wsObj;
+            return GetWebserviceObjectAfterCall("GetUsers", typeof(User));
         }
 
         /***********************************************************/
@@ -124,12 +124,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         public static WebserviceObject GetOrders(int userId)
         {
-            WebserviceObject wsObj = CallWebservice(string.Format("GetOrders?userId={0}", userId));
-
-            if (wsObj.Success)
-                wsObj = GetWebserviceObject((string)wsObj.Response, typeof(Order));
-
-            return wsObj;
+            return GetWebserviceObjectAfterCall(string.Format("GetOrders?userId={0}", userId), typeof(Order));            
         }
 
         /***********************************************************/
@@ -137,12 +132,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         public static WebserviceObject GetOrder(int userId, int orderId)
         {
-            WebserviceObject wsObj = CallWebservice(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId));
-
-            if (wsObj.Success)
-                wsObj = GetWebserviceObject((string)wsObj.Response, typeof(Order));
-
-            return wsObj;
+            return GetWebserviceObjectAfterCall(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId), typeof(Order));
         }
 
         #endregion

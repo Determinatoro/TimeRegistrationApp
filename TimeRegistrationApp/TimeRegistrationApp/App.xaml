@@ -20,6 +20,12 @@
 
         <!--#endregion-->
 
+        <!--#region STYLE-->
+
+        
+        
+        <!--#endregion-->
+        
         <Style x:Key="{x:Type DataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Background" Value="{StaticResource brushGrayBackground}" />
             <Setter Property="Foreground" Value="#444444" />
@@ -133,6 +139,9 @@
                             </MultiTrigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Foreground" Value="DimGray"/>
+                            </Trigger>
+                            <Trigger Property="Tag" Value="">
+                                <Setter Property="Margin" TargetName="PART_ContentHost" Value="0, 0, 0, 0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

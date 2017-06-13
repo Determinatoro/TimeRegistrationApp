@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRegistrationApp"
         xmlns:webservice="clr-namespace:TimeRegistrationApp.Webservice"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="TimeRegistrationApp - Main" Height="500" Width="900" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
@@ -94,6 +95,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
@@ -160,36 +162,131 @@
                         Foreground="#444444"
                         />
 
-                    <!--START TIME-->
-                    <TextBox 
-                        Name="tbStartTime"
-                        Margin="1"       
-                        Grid.Row="4"
-                        BorderBrush="#444444"
-                        Tag=""
-                        Style="{StaticResource styleTextBoxWaterMark}"
+                    <Grid 
+                        Grid.ColumnSpan="2"
+                        Grid.Row="4"                        
+                        >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="108"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="13"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--END TIME HEADER-->
+                        <DatePicker
+                            Name="dpStartTimeDate"
+                            FontWeight="SemiBold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Foreground="#444444"  
+                            BorderThickness="0"
+                            FontSize="14"
+                            FontFamily="Calibri"
+                            >
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+
+                        <TextBox  
+                            Margin="1"
+                            Grid.Column="1"
+                            Name="tbStartTimeHour"                            
+                            FontWeight="SemiBold"                            
+                            Foreground="#444444"                                                        
+                            BorderBrush="#444444"
+                            Tag=""
+                            HorizontalContentAlignment="Center"
+                            CommandManager.PreviewExecuted="tbTime_PreviewExecuted"
+                            ContextMenu="{x:Null}"                            
+                            LostFocus="tbTime_Lostfocus"
+                            PreviewTextInput="tbTime_PreviewTextInput"
+                            KeyDown="tbTime_KeyDown"
+                            Style="{StaticResource styleTextBoxWaterMark}"
+                            />
+
+                        <Label
+                        Grid.Column="2"
+                        FontWeight="SemiBold"
+                        Content=":"
+                            HorizontalContentAlignment="Center"
+                        Foreground="#444444"
                         />
 
+                        <TextBox                            
+                            Grid.Column="3"
+                            Name="tbStartTimeMinutes"                            
+                            FontWeight="SemiBold"                            
+                            Foreground="#444444"                                                        
+                            BorderBrush="#444444"
+                            Margin="1"
+                            Tag=""
+                            HorizontalContentAlignment="Center"
+                            CommandManager.PreviewExecuted="tbTime_PreviewExecuted"
+                            ContextMenu="{x:Null}"                            
+                            LostFocus="tbTime_Lostfocus"
+                            PreviewTextInput="tbTime_PreviewTextInput"
+                            KeyDown="tbTime_KeyDown"
+                            Style="{StaticResource styleTextBoxWaterMark}"
+                            />
+
+                    </Grid>
+
+                    <!--END TIME HEADER-->
                     <Label
                         Grid.Row="3"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         FontWeight="SemiBold"
                         Content="End time"
                         Foreground="#444444"
                         />
 
-                    <!--END TIME-->
-                    <TextBox 
-                        Name="tbEndTime"
-                        Margin="1"       
+                    <Grid 
                         Grid.Row="4"
-                        Grid.Column="1"
-                        BorderBrush="#444444"
-                        Tag=""
-                        Style="{StaticResource styleTextBoxWaterMark}"
-                        />
+                        Grid.Column="2"
+                        >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--END TIME HEADER-->
+                        <DatePicker
+                            Name="dpEndTimeDate"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontWeight="SemiBold"     
+                            FontSize="14"
+                            FontFamily="Calibri"
+                            Foreground="#444444"
+                            BorderThickness="0"
+                            >
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
 
 
+                        <!--END TIME-->
+                        <TextBox 
+                            Name="tbEndTime"
+                            FontWeight="SemiBold"                            
+                            Foreground="#444444"                                                        
+                            BorderBrush="#444444"
+                            Margin="1" 
+                            Grid.Column="1"
+                            HorizontalContentAlignment="Center"
+                            CommandManager.PreviewExecuted="tbTime_PreviewExecuted"
+                            ContextMenu="{x:Null}"                            
+                            Style="{StaticResource styleTextBoxWaterMark}"
+                            />
+
+                    </Grid>
 
                 </Grid>
 
