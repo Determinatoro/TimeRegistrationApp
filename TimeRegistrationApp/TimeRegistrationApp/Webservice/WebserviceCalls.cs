@@ -119,6 +119,30 @@ namespace TimeRegistrationApp.Webservice
             return GetWebserviceObjectAfterCall(string.Format("CreateCustomer?name={0}", name), typeof(Customer));
         }
 
+        /***********************************************************/
+        // CREATE ORDER - userId, name, description, customerId
+        /***********************************************************/
+        public static WebserviceObject CreateOrder(int userId, string name, string description, int customerId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateOrder?userId={0}&name={1}&description={2}&customerId={3}", name), typeof(Order));
+        }
+
+        /***********************************************************/
+        // CREATE ORDER ROLE - orderId, userId, name, roleId
+        /***********************************************************/
+        public static WebserviceObject CreateOrder(int orderId, int userId, int roleId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateOrderRole?orderId={0}&userId={1}&roleId={2}", orderId, userId, roleId), typeof(Order));
+        }
+
+        /***********************************************************/
+        // CREATE ROLE - name
+        /***********************************************************/
+        public static WebserviceObject CreateRole(string name)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateRole?name={0}", name), typeof(Customer));
+        }
+
 
 
         /***********************************************************/
