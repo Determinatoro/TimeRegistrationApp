@@ -112,6 +112,16 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
+        // CREATE CUSTOMER - name
+        /***********************************************************/
+        public static WebserviceObject CreateCustomer(string name)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateCustomer?name={0}", name), typeof(Customer));
+        }
+
+
+
+        /***********************************************************/
         // GetUsers - No parameters
         /***********************************************************/
         public static WebserviceObject GetUsers()
@@ -128,9 +138,17 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
-        // GetOrders - userId, orderId
+        // GetOrder - userId, orderId
         /***********************************************************/
         public static WebserviceObject GetOrder(int userId, int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId), typeof(Order));
+        }
+
+        /***********************************************************/
+        // GetOrder - userId, orderId
+        /***********************************************************/
+        public static WebserviceObject kek(int userId, int orderId)
         {
             return GetWebserviceObjectAfterCall(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId), typeof(Order));
         }
