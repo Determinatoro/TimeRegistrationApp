@@ -55,14 +55,14 @@
                     >
                 <!--Columns-->
                 <DataGrid.Columns>
-                    <!--ID-->
-                    <DataGridTemplateColumn Header="ID" IsReadOnly="True" Width="0.5*">
+                    <!--userId-->
+                    <DataGridTemplateColumn Header="id" IsReadOnly="True" Width="0.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Label 
-                                    Content="{Binding Path=userId}"                                                                                     
-                                    BorderBrush="#444444"                                                   
-                                    />
+                                        Content="{Binding Path=UserId}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -94,17 +94,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Label 
-                                        Content="{Binding Path=admin}"                                                                                     
-                                        BorderBrush="#444444"                                                   
-                                        />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Password" IsReadOnly="True" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label 
-                                        Content="{Binding Path=Password}"                                                                                     
+                                        Content="{Binding Path=Admin}"                                                                                     
                                         BorderBrush="#444444"                                                   
                                         />
                             </DataTemplate>
