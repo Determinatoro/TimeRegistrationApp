@@ -292,9 +292,18 @@
                 </Grid>
 
                 <DataGrid
+                    Name="dgTimeRegistrations"
                     Grid.Row="1"
                     Margin="1"                    
                     Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"
                     >
                     <!--Columns-->
                     <DataGrid.Columns>
@@ -302,10 +311,11 @@
                         <DataGridTemplateColumn Header="Start time" IsReadOnly="True" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox 
+                                    <Label 
                                         Name="tbStartTime"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Foreground="#222222"
+                                        Content="{Binding Path=StartTime}"
+                                        Background="{Binding Path=Background}"                                        
                                         />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -314,10 +324,23 @@
                         <DataGridTemplateColumn Header="End time" IsReadOnly="True" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox 
+                                    <Label 
                                         Name="tbEndTime"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Foreground="#222222" 
+                                        Content="{Binding Path=EndTime}"
+                                        Background="{Binding Path=Background}"                                        
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Total-->
+                        <DataGridTemplateColumn Header="Total" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Name="tbEndTime"                                                                                       
+                                        Foreground="#222222"
+                                        Content="{Binding Path=Total}"                                                                           
                                         />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -326,22 +349,22 @@
                         <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >
-                                    <TextBox 
+                                    <Label 
                                         Name="tbDescription"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Foreground="#222222"  
+                                        Content="{Binding Path=Description}"                                        
                                         />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <!--Disp. Value-->
+                        <!--Note-->
                         <DataGridTemplateColumn Header="Note" IsReadOnly="True" Width="1*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate >
-                                    <TextBox 
+                                    <Label 
                                         Name="tbNote"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Content="{Binding Path=Note}"
+                                        Foreground="#222222"                                          
                                         />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

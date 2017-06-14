@@ -135,6 +135,14 @@ namespace TimeRegistrationApp.Webservice
             return GetWebserviceObjectAfterCall(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId), typeof(Order));
         }
 
+        /***********************************************************/
+        // GetTimeRegistrations - userId, orderId
+        /***********************************************************/
+        public static WebserviceObject GetTimeRegistrations(int userId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetTimeRegistrations?userId={0}", userId), typeof(TimeRegistration));
+        }
+
         #endregion
     }
 }
