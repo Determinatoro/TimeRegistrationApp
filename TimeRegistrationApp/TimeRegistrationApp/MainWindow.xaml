@@ -54,7 +54,7 @@
                     Content="Start / Continue"
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
-                    Style="{StaticResource styleButton}" 
+                    Style="{StaticResource styleButton}" Click="btnStartContinue_Click" 
                     />
 
                 <!--STOP-->
@@ -67,7 +67,7 @@
                     Content="Stop"
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
-                    Style="{StaticResource styleButton}" 
+                    Style="{StaticResource styleButton}" Click="btnStop_Click" 
                     />
 
                 <!--ADMIN CONTROLS-->
@@ -81,6 +81,7 @@
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
                     Style="{StaticResource styleButton}"
+                    Click="btnAdminControls_click"
                     />
             </Grid>
 
@@ -155,26 +156,40 @@
                         Foreground="#444444"
                         />
 
-                    <Label
+                    <Grid 
                         Grid.Row="3"
+                        Grid.ColumnSpan="100"
+                        Grid.RowSpan="100"
+                        >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label
                         FontWeight="SemiBold"
                         Content="Start time"
                         Foreground="#444444"
                         />
 
-                    <Grid 
+                        <Grid 
                         Grid.ColumnSpan="2"
                         Grid.Row="4"                        
                         >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="108"/>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="13"/>
-                            <ColumnDefinition Width="30"/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="108"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="13"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
 
-                        <!--DATE PICKER START TIME-->
-                        <DatePicker
+                            <!--DATE PICKER START TIME-->
+                            <DatePicker
                             Name="dpStartTimeDate"
                             FontWeight="SemiBold"
                             HorizontalContentAlignment="Center"
@@ -184,14 +199,14 @@
                             FontSize="14"
                             FontFamily="Calibri"
                             >
-                            <DatePicker.Resources>
-                                <Style TargetType="DatePickerTextBox">
-                                    <Setter Property="IsReadOnly" Value="True"/>
-                                </Style>
-                            </DatePicker.Resources>
-                        </DatePicker>
+                                <DatePicker.Resources>
+                                    <Style TargetType="DatePickerTextBox">
+                                        <Setter Property="IsReadOnly" Value="True"/>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>
 
-                        <TextBox  
+                            <TextBox  
                             Margin="1"
                             Grid.Column="1"
                             Name="tbStartTimeHour"                            
@@ -208,7 +223,7 @@
                             Style="{StaticResource styleTextBoxWaterMark}"
                             />
 
-                        <Label
+                            <Label
                         Grid.Column="2"
                         FontWeight="SemiBold"
                         Content=":"
@@ -216,7 +231,7 @@
                         Foreground="#444444"
                         />
 
-                        <TextBox                            
+                            <TextBox                            
                             Grid.Column="3"
                             Name="tbStartTimeMinutes"                            
                             FontWeight="SemiBold"                            
@@ -233,120 +248,223 @@
                             Style="{StaticResource styleTextBoxWaterMark}"
                             />
 
-                    </Grid>
+                        </Grid>
 
-                    <!--END TIME HEADER-->
-                    <Label
-                        Grid.Row="3"
-                        Grid.Column="2"
+                        <!--END TIME HEADER-->
+                        <Label                        
+                        Grid.Column="1"
                         FontWeight="SemiBold"
                         Content="End time"
                         Foreground="#444444"
                         />
 
-                    <Grid 
-                        Grid.Row="4"
-                        Grid.Column="2"
-                        >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="0.5*"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid 
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"                        
+                            >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="108"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="13"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
 
-                        <!--END TIME HEADER-->
-                        <DatePicker
+                            <!--DATE PICKER END TIME-->
+                            <DatePicker
                             Name="dpEndTimeDate"
+                            FontWeight="SemiBold"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            FontWeight="SemiBold"     
+                            Foreground="#444444"  
+                            BorderThickness="0"
                             FontSize="14"
                             FontFamily="Calibri"
-                            Foreground="#444444"
-                            BorderThickness="0"
                             >
-                            <DatePicker.Resources>
-                                <Style TargetType="DatePickerTextBox">
-                                    <Setter Property="IsReadOnly" Value="True"/>
-                                </Style>
-                            </DatePicker.Resources>
-                        </DatePicker>
+                                <DatePicker.Resources>
+                                    <Style TargetType="DatePickerTextBox">
+                                        <Setter Property="IsReadOnly" Value="True"/>
+                                    </Style>
+                                </DatePicker.Resources>
+                            </DatePicker>
 
-
-                        <!--END TIME-->
-                        <TextBox 
-                            Name="tbEndTime"
+                            <TextBox  
+                            Margin="1"
+                            Grid.Column="1"
+                            Name="tbEndTimeHour"                            
                             FontWeight="SemiBold"                            
                             Foreground="#444444"                                                        
                             BorderBrush="#444444"
-                            Margin="1" 
-                            Grid.Column="1"
+                            Tag=""
                             HorizontalContentAlignment="Center"
                             CommandManager.PreviewExecuted="tbTime_PreviewExecuted"
                             ContextMenu="{x:Null}"                            
+                            LostFocus="tbTime_Lostfocus"
+                            PreviewTextInput="tbTime_PreviewTextInput"
+                            KeyDown="tbTime_KeyDown"
                             Style="{StaticResource styleTextBoxWaterMark}"
+                            />
+
+                            <Label
+                            Grid.Column="2"
+                            FontWeight="SemiBold"
+                            Content=":"
+                            HorizontalContentAlignment="Center"
+                            Foreground="#444444"
+                            />
+
+                            <TextBox                            
+                            Grid.Column="3"
+                            Name="tbEndTimeMinutes"                            
+                            FontWeight="SemiBold"                            
+                            Foreground="#444444"                                                        
+                            BorderBrush="#444444"
+                            Margin="1"
+                            Tag=""
+                            HorizontalContentAlignment="Center"
+                            CommandManager.PreviewExecuted="tbTime_PreviewExecuted"
+                            ContextMenu="{x:Null}"                            
+                            LostFocus="tbTime_Lostfocus"
+                            PreviewTextInput="tbTime_PreviewTextInput"
+                            KeyDown="tbTime_KeyDown"
+                            Style="{StaticResource styleTextBoxWaterMark}"
+                            />
+
+                        </Grid>
+
+                        <!--SET / UPDATE-->
+                        <Button
+                            Name="btnSetUpdate"
+                            Margin="1"
+                            FontSize="14"                    
+                            BorderBrush="#444444"
+                            Content="Set / Update"
+                            Foreground="#444444"
+                            Background="{StaticResource brushGrayBackground}"
+                            Style="{StaticResource styleButton}" 
+                            Grid.Column="100"
+                            Grid.Row="1" Click="btnSetUpdate_Click"
                             />
 
                     </Grid>
 
                 </Grid>
 
-                <DataGrid
-                    Grid.Row="1"
-                    Margin="1"                    
-                    Background="Transparent"
-                    >
-                    <!--Columns-->
-                    <DataGrid.Columns>
-                        <!--Start time-->
-                        <DataGridTemplateColumn Header="Start time" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox 
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid
+                        Name="dgTimeRegistrations"                    
+                        Margin="1"                    
+                        Background="Transparent"
+                        RowHeaderWidth="0"
+                        AutoGenerateColumns="False"   
+                        CanUserReorderColumns="False"   
+                        CanUserResizeColumns="False"   
+                        CanUserResizeRows="False"   
+                        CanUserAddRows="false"
+                        CanUserSortColumns="False"   
+                        SelectionMode="Single"
+                        SelectionChanged="dgTimeRegistrations_SelectionChanged"
+                        >
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <EventSetter Event="MouseDoubleClick" Handler="dgTimeRegistrations_DoubleClick"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <!--Columns-->
+                        <DataGrid.Columns>
+                            <!--Start time-->
+                            <DataGridTemplateColumn Header="Start time" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label 
                                         Name="tbStartTime"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Foreground="#222222"
+                                        Content="{Binding Path=StartTime}"
+                                        Background="{Binding Path=Background}"                                        
                                         />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <!--End time-->
-                        <DataGridTemplateColumn Header="End time" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox 
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <!--End time-->
+                            <DataGridTemplateColumn Header="End time" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label 
                                         Name="tbEndTime"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Foreground="#222222" 
+                                        Content="{Binding Path=EndTime}"
+                                        Background="{Binding Path=Background}"                                        
                                         />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <!--Description-->
-                        <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate >
-                                    <TextBox 
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <!--Total-->
+                            <DataGridTemplateColumn Header="Total" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label 
+                                        Name="tbEndTime"                                                                                       
+                                        Foreground="#222222"
+                                        Content="{Binding Path=Total}"                                                                           
+                                        />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <!--Description-->
+                            <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Label 
                                         Name="tbDescription"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Foreground="#222222"  
+                                        Content="{Binding Path=Description}"                                        
                                         />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <!--Disp. Value-->
-                        <DataGridTemplateColumn Header="Note" IsReadOnly="True" Width="1*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate >
-                                    <TextBox 
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <!--Note-->
+                            <DataGridTemplateColumn Header="Note" IsReadOnly="True" Width="1*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate >
+                                        <Label 
                                         Name="tbNote"                                                                                       
-                                        BorderBrush="#444444"                                        
-                                        Style="{StaticResource styleTextBoxWaterMark}"
+                                        Content="{Binding Path=Note}"
+                                        Foreground="#222222"                                          
                                         />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--ADMIN CONTROLS-->
+                        <Button
+                            Name="btnDeleteTimeRegistration"
+                            Margin="1"
+                            FontSize="14"
+                            Grid.Column="100"
+                            BorderBrush="#444444"
+                            Content="Delete time registration"
+                            Foreground="#444444"
+                            Background="{StaticResource brushGrayBackground}"
+                            Style="{StaticResource styleButton}" Click="btnDeleteTimeRegistration_Click"                            
+                            />
+                    </Grid>
+                    
+                </Grid>
+                
 
             </Grid>
         </Grid>

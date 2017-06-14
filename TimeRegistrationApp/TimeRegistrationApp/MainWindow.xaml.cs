@@ -37,14 +37,34 @@ namespace TimeRegistrationApp
             if (!user.Admin)
                 btnAdminControls.Visibility = Visibility.Hidden;
 
-            dpStartTimeDate.SelectedDate = DateTime.Now;
-            dpEndTimeDate.SelectedDate = DateTime.Now;
-
-            tbStartTimeHour.Text = DateTime.Now.ToString("HH");
-            tbStartTimeMinutes.Text = DateTime.Now.ToString("mm");
+            SetStartAndEndTime(DateTime.Now, DateTime.Now);
 
             tbStartTimeHour.MaxLength = 2;
             tbStartTimeMinutes.MaxLength = 2;
+
+            GetTimeRegistrations();
+        }
+
+        public void GetTimeRegistrations()
+        {
+            WebserviceObject wsObj = WebserviceCalls.GetTimeRegistrations(user.UserId);
+
+            ObservableCollection<TimeRegistration> list = new ObservableCollection<TimeRegistration>();
+
+            foreach (TimeRegistration obj in (List<object>)wsObj.Response)
+                list.Add(obj);
+
+            list = new ObservableCollection<TimeRegistration>(from o in list orderby DateTime.Parse(o.StartTime) descending select o);
+
+            var tr = (from o in list where o.EndTime == "" select o).FirstOrDefault();
+
+            if (tr != null)
+            {
+                list.Remove(tr);
+                list.Insert(0, tr);
+            }
+
+            dgTimeRegistrations.ItemsSource = list;
         }
 
         public void SetOrderId(Order order)
@@ -53,6 +73,30 @@ namespace TimeRegistrationApp
             tbOrderId.Text = order.OrderId.ToString();
             lbDescription.Content = order.Description;
             lbRole.Content = order.RoleName;
+        }
+
+        private void SetStartAndEndTime(DateTime startTime, DateTime? endTime)
+        {
+            dpStartTimeDate.SelectedDate = startTime;
+
+            if (endTime != null)
+            {
+                dpEndTimeDate.SelectedDate = endTime;
+
+                if (endTime != startTime)
+                {
+                    tbEndTimeHour.Text = endTime.Value.ToString("HH");
+                    tbEndTimeMinutes.Text = endTime.Value.ToString("mm");
+                }
+            }
+            else
+            {
+                tbEndTimeHour.Text = "";
+                tbEndTimeMinutes.Text = "";
+            }
+
+            tbStartTimeHour.Text = startTime.ToString("HH");
+            tbStartTimeMinutes.Text = startTime.ToString("mm");
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
@@ -72,6 +116,12 @@ namespace TimeRegistrationApp
         {
             if (e.Key == Key.Enter)
             {
+                if (tbOrderId.Text == "")
+                {
+                    MessageBox.Show("Please give an order ID");
+                    return;
+                }
+
                 int orderId = int.Parse(tbOrderId.Text);
 
                 WebserviceObject wsObj = WebserviceCalls.GetOrder(user.UserId, orderId);
@@ -81,7 +131,7 @@ namespace TimeRegistrationApp
                 else
                     MessageBox.Show(wsObj.Response.ToString());
             }
-        }     
+        }
 
         private void tbTime_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -116,15 +166,15 @@ namespace TimeRegistrationApp
                         tbStartTimeHour.SelectAll();
                         break;
                     case "tbEndTimeHour":
-                        tbStartTimeMinutes.Focus();
-                        tbStartTimeMinutes.SelectAll();
+                        tbEndTimeMinutes.Focus();
+                        tbEndTimeMinutes.SelectAll();
                         break;
-                    case "tbEndTimeMinuutes":
-                        tbStartTimeMinutes.Focus();
-                        tbStartTimeMinutes.SelectAll();
+                    case "tbEndTimeMinutes":
+                        tbEndTimeHour.Focus();
+                        tbEndTimeHour.SelectAll();
                         break;
                 }
-                
+
 
                 e.Handled = true;
             }
@@ -136,5 +186,164 @@ namespace TimeRegistrationApp
 
             tb.Text = tb.Text.PadLeft(2, '0');
         }
+
+        #region TimeRegistration
+
+        private void dgTimeRegistrations_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var dgr = sender as DataGridRow;
+
+            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+            var tr = list[dgr.GetIndex()];
+
+            NoteWindow noteWindow = new NoteWindow(this, tr);
+            noteWindow.ShowDialog();
+        }
+
+        private void dgTimeRegistrations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+                var tr = list[dgTimeRegistrations.SelectedIndex];
+
+                var dtStart = DateTime.Parse(tr.StartTime);
+
+                if (tr.EndTime != "")
+                {
+                    var dtEnd = DateTime.Parse(tr.EndTime);
+                    SetStartAndEndTime(dtStart, dtEnd);
+                }
+                else
+                {
+                    SetStartAndEndTime(dtStart, null);
+                }
+            }
+            catch { }
+        }
+
+        private void btnStartContinue_Click(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+            var tr = list[0];
+
+            if (tr.EndTime == "")
+            {
+                MessageBox.Show("Please end your current time registration first");
+                return;
+            }
+
+            if (order == null)
+            {
+                MessageBox.Show("Please select an order");
+                return;
+            }
+
+            var dt = DateTime.Parse(dpStartTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
+            TimeSpan ts = new TimeSpan(int.Parse(tbStartTimeHour.Text), int.Parse(tbStartTimeMinutes.Text), 0);
+            dt = dt + ts;
+
+            if (dt.ToString("dd-MM-yyyy HH:mm") != DateTime.Now.ToString("dd-MM-yyyy HH:mm"))
+            {
+                if (MessageBox.Show("Start time is set before or after current time. Want to set it to current?", "Start time", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    dt = DateTime.Now;
+                    SetStartAndEndTime(DateTime.Now, null);
+                }
+            }
+
+            var wsObj = WebserviceCalls.StartTimeRegistration(dt.ToString("yyyy-MM-dd'T'HH:mm:ss"), user.UserId, order.OrderId);
+
+            if (wsObj.Success)
+                GetTimeRegistrations();
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            var dt = DateTime.Now;
+
+            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+            
+            var tr = list[0];
+
+            if (tr.EndTime != "")
+            {
+                MessageBox.Show("You have not started a time registration");
+                return;
+            }
+
+            var wsObj = WebserviceCalls.EndTimeRegistration(tr.TimeRegId, dt.ToString("yyyy-MM-dd'T'HH:mm:ss"));
+
+            if (wsObj.Success)
+                GetTimeRegistrations();
+        }
+
+        private void btnSetUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (tbStartTimeHour.Text == "" || tbStartTimeMinutes.Text == "" || tbEndTimeHour.Text == "" || tbEndTimeMinutes.Text == "")
+            {
+                MessageBox.Show("Please fill out hours and minutes");
+                return;
+            }
+
+            var dtStart = DateTime.Parse(dpStartTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
+            TimeSpan ts = new TimeSpan(int.Parse(tbStartTimeHour.Text), int.Parse(tbStartTimeMinutes.Text), 0);
+            dtStart += ts;
+
+            var dtEnd = DateTime.Parse(dpEndTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
+            ts = new TimeSpan(int.Parse(tbEndTimeHour.Text), int.Parse(tbEndTimeMinutes.Text), 0);
+            dtEnd += ts;
+
+            if (dtEnd < dtStart)
+            {
+                MessageBox.Show("End time is before start time");
+                return;
+            }
+
+            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+            TimeRegistration tr = null;
+
+            if (dgTimeRegistrations.SelectedIndex == -1)
+                tr = list[0];
+            else
+                tr = list[dgTimeRegistrations.SelectedIndex];
+
+            var wsObj = WebserviceCalls.UpdateTimeRegistration(tr.TimeRegId, dtStart.ToString("yyyy-MM-dd'T'HH:mm:ss"), dtEnd.ToString("yyyy-MM-dd'T'HH:mm:ss"));
+
+            if (wsObj.Success)
+                GetTimeRegistrations();
+        }
+
+        private void btnDeleteTimeRegistration_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgTimeRegistrations.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select a time registration");
+                return;
+            }
+
+            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+            var tr = list[dgTimeRegistrations.SelectedIndex];
+
+            var wsObj = WebserviceCalls.DeleteTimeRegistration(tr.TimeRegId);
+
+            if (wsObj.Success)
+                GetTimeRegistrations();
+        }
+
+        #endregion
+
+        private void btnAdminControls_click(object sender, RoutedEventArgs e)
+        {
+            AdminUserWindow adminWindow = new AdminUserWindow();
+            adminWindow.ShowDialog();
+        }
+
+        
     }
 }
