@@ -37,15 +37,16 @@ namespace TimeRegistrationApp
             if (!user.Admin)
                 btnAdminControls.Visibility = Visibility.Hidden;
 
-            dpStartTimeDate.SelectedDate = DateTime.Now;
-            dpEndTimeDate.SelectedDate = DateTime.Now;
-
-            tbStartTimeHour.Text = DateTime.Now.ToString("HH");
-            tbStartTimeMinutes.Text = DateTime.Now.ToString("mm");
+            SetStartAndEndTime(DateTime.Now, DateTime.Now);
 
             tbStartTimeHour.MaxLength = 2;
             tbStartTimeMinutes.MaxLength = 2;
 
+            GetTimeRegistrations();
+        }
+
+        public void GetTimeRegistrations()
+        {
             WebserviceObject wsObj = WebserviceCalls.GetTimeRegistrations(user.UserId);
 
             ObservableCollection<TimeRegistration> list = new ObservableCollection<TimeRegistration>();
@@ -53,7 +54,9 @@ namespace TimeRegistrationApp
             foreach (TimeRegistration obj in (List<object>)wsObj.Response)
                 list.Add(obj);
 
-            dgTimeRegistrations.ItemsSource = list; 
+            list = new ObservableCollection<TimeRegistration>(from o in list orderby DateTime.Parse(o.StartTime) descending select o);
+
+            dgTimeRegistrations.ItemsSource = list;
         }
 
         public void SetOrderId(Order order)
@@ -62,6 +65,25 @@ namespace TimeRegistrationApp
             tbOrderId.Text = order.OrderId.ToString();
             lbDescription.Content = order.Description;
             lbRole.Content = order.RoleName;
+        }
+
+        private void SetStartAndEndTime(DateTime startTime, DateTime? endTime)
+        {
+            dpStartTimeDate.SelectedDate = startTime;
+
+            if (endTime != null)
+            {
+                dpEndTimeDate.SelectedDate = endTime;
+
+                if (endTime != startTime)
+                {
+                    tbEndTimeHour.Text = endTime.Value.ToString("HH");
+                    tbEndTimeMinutes.Text = endTime.Value.ToString("mm");
+                }
+            }
+
+            tbStartTimeHour.Text = startTime.ToString("HH");
+            tbStartTimeMinutes.Text = startTime.ToString("mm");
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
@@ -125,12 +147,12 @@ namespace TimeRegistrationApp
                         tbStartTimeHour.SelectAll();
                         break;
                     case "tbEndTimeHour":
-                        tbStartTimeMinutes.Focus();
-                        tbStartTimeMinutes.SelectAll();
+                        tbEndTimeMinutes.Focus();
+                        tbEndTimeMinutes.SelectAll();
                         break;
-                    case "tbEndTimeMinuutes":
-                        tbStartTimeMinutes.Focus();
-                        tbStartTimeMinutes.SelectAll();
+                    case "tbEndTimeMinutes":
+                        tbEndTimeHour.Focus();
+                        tbEndTimeHour.SelectAll();
                         break;
                 }
                 
@@ -146,10 +168,72 @@ namespace TimeRegistrationApp
             tb.Text = tb.Text.PadLeft(2, '0');
         }
 
+        #region TimeRegistration
+
+        private void dgTimeRegistrations_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // execute some code
+        }
+
+        private void dgTimeRegistrations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try {
+                ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+                var tr = list[dgTimeRegistrations.SelectedIndex];
+
+                var dtStart = DateTime.Parse(tr.StartTime);
+
+                if (tr.EndTime != "")
+                {
+                    var dtEnd = DateTime.Parse(tr.EndTime);
+                    SetStartAndEndTime(dtStart, dtEnd);
+                }
+                else
+                {
+                    SetStartAndEndTime(dtStart, null);
+                }
+            } catch { }
+        }
+
+        #endregion
+
         private void btnAdminControls_click(object sender, RoutedEventArgs e)
         {
             AdminUserWindow adminWindow = new AdminUserWindow();
             adminWindow.ShowDialog();
+        }
+
+        private void btnStartContinue_Click(object sender, RoutedEventArgs e)
+        {
+            var dt = DateTime.Now;
+
+            var wsObj = WebserviceCalls.StartTimeRegistration(dt.ToString("yyyy-MM-dd'T'HH:mm:ss"), user.UserId, order.OrderId);
+
+            if (wsObj.Success)
+            {
+                GetTimeRegistrations();
+            }
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            /*var dt = dpEndTimeDate.SelectedDate.Value;
+            TimeSpan ts = new TimeSpan(int.Parse(tbEndTimeHour.Text), int.Parse(tbEndTimeMinutes.Text), 0);
+            dt = dt + ts;*/
+
+            var dt = DateTime.Now;
+
+            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+            var tr = list[0];
+
+            var wsObj = WebserviceCalls.EndTimeRegistration(tr.TimeRegId, dt.ToString("yyyy-MM-dd'T'HH:mm:ss"));
+
+            if (wsObj.Success)
+            {
+                GetTimeRegistrations();
+            }
         }
     }
 }

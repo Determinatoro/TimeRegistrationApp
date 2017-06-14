@@ -82,6 +82,8 @@ namespace TimeRegistrationApp.Webservice
 
                     wsObj.Response = tempList;
                 }
+                else if (wsObj.Response as string != null)
+                    wsObj.Response = wsObj.Response as string;
                 else
                     wsObj.Response = GetObject((Dictionary<string, object>)wsObj.Response, type);
             }
@@ -136,11 +138,27 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
-        // GetTimeRegistrations - userId, orderId
+        // GetTimeRegistrations - userId
         /***********************************************************/
         public static WebserviceObject GetTimeRegistrations(int userId)
         {
             return GetWebserviceObjectAfterCall(string.Format("GetTimeRegistrations?userId={0}", userId), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // StartTimeRegistration - startTime, userId, orderId 
+        /***********************************************************/
+        public static WebserviceObject StartTimeRegistration(string startTime, int userId, int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("StartTimeRegistration?startTime={0}&userId={1}&orderId={2}", startTime, userId, orderId), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // EndTimeRegistration - timeRegId, endTime 
+        /***********************************************************/
+        public static WebserviceObject EndTimeRegistration(int timeRegId, string endTime)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("EndTimeRegistration?timeRegId={0}&endTime={1}", timeRegId, endTime), typeof(TimeRegistration));
         }
 
         #endregion
