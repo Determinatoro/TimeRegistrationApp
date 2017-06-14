@@ -145,5 +145,11 @@ namespace TimeRegistrationApp
 
             tb.Text = tb.Text.PadLeft(2, '0');
         }
+
+        private void btnAdminControls_click(object sender, RoutedEventArgs e)
+        {
+            AdminUserWindow adminWindow = new AdminUserWindow();
+            adminWindow.ShowDialog();
+        }
     }
 }
