@@ -14,7 +14,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            
+
             <DataGrid
                     Name="dgOrders"                    
                     Margin="1"                    

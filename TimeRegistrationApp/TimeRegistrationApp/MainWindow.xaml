@@ -81,6 +81,7 @@
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
                     Style="{StaticResource styleButton}"
+                    Click="btnAdminControls_click"
                     />
             </Grid>
 
