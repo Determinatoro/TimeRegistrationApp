@@ -178,6 +178,14 @@ namespace TimeRegistrationApp.Webservice
             return GetWebserviceObjectAfterCall(string.Format("UpdateTimeRegistration?timeRegId={0}&startTime={1}&endTime={2}", timeRegId, startTime, endTime), typeof(TimeRegistration));
         }
 
+        /***********************************************************/
+        // SetNoteForTimeRegistration - timeRegId, note
+        /***********************************************************/
+        public static WebserviceObject SetNoteForTimeRegistration(int timeRegId, string note)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("SetNoteForTimeRegistration?timeRegId={0}&note={1}", timeRegId, note), typeof(TimeRegistration));
+        }
+
         #endregion
     }
 }

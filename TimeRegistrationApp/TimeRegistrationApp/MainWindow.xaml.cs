@@ -191,7 +191,14 @@ namespace TimeRegistrationApp
 
         private void dgTimeRegistrations_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // execute some code
+            var dgr = sender as DataGridRow;
+
+            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+            var tr = list[dgr.GetIndex()];
+
+            NoteWindow noteWindow = new NoteWindow(this, tr);
+            noteWindow.ShowDialog();
         }
 
         private void dgTimeRegistrations_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -259,8 +266,14 @@ namespace TimeRegistrationApp
             var dt = DateTime.Now;
 
             ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
-
+            
             var tr = list[0];
+
+            if (tr.EndTime != "")
+            {
+                MessageBox.Show("You have not started a time registration");
+                return;
+            }
 
             var wsObj = WebserviceCalls.EndTimeRegistration(tr.TimeRegId, dt.ToString("yyyy-MM-dd'T'HH:mm:ss"));
 
