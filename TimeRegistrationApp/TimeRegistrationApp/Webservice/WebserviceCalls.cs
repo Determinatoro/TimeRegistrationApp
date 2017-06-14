@@ -16,7 +16,8 @@ namespace TimeRegistrationApp.Webservice
         // Webservice URL
         private static string webservice = "http://jako3498.web.techcollege.dk/TimeRegistration.asmx/";
         // Web client used to call webservice
-        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8 };
+        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8
+    };
 
         #endregion
 
@@ -159,6 +160,22 @@ namespace TimeRegistrationApp.Webservice
         public static WebserviceObject EndTimeRegistration(int timeRegId, string endTime)
         {
             return GetWebserviceObjectAfterCall(string.Format("EndTimeRegistration?timeRegId={0}&endTime={1}", timeRegId, endTime), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // DeleteTimeRegistration - timeRegId
+        /***********************************************************/
+        public static WebserviceObject DeleteTimeRegistration(int timeRegId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteTimeRegistration?timeRegId={0}", timeRegId), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // UpdateTimeRegistration - timeRegId, startTime, endTime
+        /***********************************************************/
+        public static WebserviceObject UpdateTimeRegistration(int timeRegId, string startTime, string endTime)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("UpdateTimeRegistration?timeRegId={0}&startTime={1}&endTime={2}", timeRegId, startTime, endTime), typeof(TimeRegistration));
         }
 
         #endregion

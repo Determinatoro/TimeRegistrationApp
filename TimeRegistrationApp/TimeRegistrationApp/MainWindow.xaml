@@ -343,7 +343,7 @@
                             Background="{StaticResource brushGrayBackground}"
                             Style="{StaticResource styleButton}" 
                             Grid.Column="100"
-                            Grid.Row="1"
+                            Grid.Row="1" Click="btnSetUpdate_Click"
                             />
 
                     </Grid>
@@ -459,7 +459,7 @@
                             Content="Delete time registration"
                             Foreground="#444444"
                             Background="{StaticResource brushGrayBackground}"
-                            Style="{StaticResource styleButton}"                            
+                            Style="{StaticResource styleButton}" Click="btnDeleteTimeRegistration_Click"                            
                             />
                     </Grid>
                     
