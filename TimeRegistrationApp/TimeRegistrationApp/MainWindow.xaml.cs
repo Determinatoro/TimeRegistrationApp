@@ -45,6 +45,15 @@ namespace TimeRegistrationApp
 
             tbStartTimeHour.MaxLength = 2;
             tbStartTimeMinutes.MaxLength = 2;
+
+            WebserviceObject wsObj = WebserviceCalls.GetTimeRegistrations(user.UserId);
+
+            ObservableCollection<TimeRegistration> list = new ObservableCollection<TimeRegistration>();
+
+            foreach (TimeRegistration obj in (List<object>)wsObj.Response)
+                list.Add(obj);
+
+            dgTimeRegistrations.ItemsSource = list; 
         }
 
         public void SetOrderId(Order order)
