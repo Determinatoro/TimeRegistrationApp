@@ -16,8 +16,7 @@ namespace TimeRegistrationApp.Webservice
         // Webservice URL
         private static string webservice = "http://jako3498.web.techcollege.dk/TimeRegistration.asmx/";
         // Web client used to call webservice
-        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8
-    };
+        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8 };
 
         #endregion
 

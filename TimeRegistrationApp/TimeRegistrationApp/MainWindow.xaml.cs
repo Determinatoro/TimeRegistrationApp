@@ -418,7 +418,5 @@ namespace TimeRegistrationApp
             AdminWindow adminWindow = new AdminWindow();
             adminWindow.ShowDialog();
         }
-
-        
     }
 }
