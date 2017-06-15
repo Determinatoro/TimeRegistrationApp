@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace TimeRegistrationApp.Webservice
 {
-    class TimeRegistration
+    public class TimeRegistration
     {
         private int timeRegId;
         private string startTime;

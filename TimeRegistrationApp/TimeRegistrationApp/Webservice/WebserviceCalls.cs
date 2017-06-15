@@ -16,7 +16,8 @@ namespace TimeRegistrationApp.Webservice
         // Webservice URL
         private static string webservice = "http://jako3498.web.techcollege.dk/TimeRegistration.asmx/";
         // Web client used to call webservice
-        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8 };
+        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8
+    };
 
         #endregion
 
@@ -82,6 +83,8 @@ namespace TimeRegistrationApp.Webservice
 
                     wsObj.Response = tempList;
                 }
+                else if (wsObj.Response as string != null)
+                    wsObj.Response = wsObj.Response as string;
                 else
                     wsObj.Response = GetObject((Dictionary<string, object>)wsObj.Response, type);
             }
@@ -144,11 +147,51 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
-        // GetTimeRegistrations - userId, orderId
+        // GetTimeRegistrations - userId
         /***********************************************************/
         public static WebserviceObject GetTimeRegistrations(int userId)
         {
             return GetWebserviceObjectAfterCall(string.Format("GetTimeRegistrations?userId={0}", userId), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // StartTimeRegistration - startTime, userId, orderId 
+        /***********************************************************/
+        public static WebserviceObject StartTimeRegistration(string startTime, int userId, int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("StartTimeRegistration?startTime={0}&userId={1}&orderId={2}", startTime, userId, orderId), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // EndTimeRegistration - timeRegId, endTime 
+        /***********************************************************/
+        public static WebserviceObject EndTimeRegistration(int timeRegId, string endTime)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("EndTimeRegistration?timeRegId={0}&endTime={1}", timeRegId, endTime), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // DeleteTimeRegistration - timeRegId
+        /***********************************************************/
+        public static WebserviceObject DeleteTimeRegistration(int timeRegId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteTimeRegistration?timeRegId={0}", timeRegId), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // UpdateTimeRegistration - timeRegId, startTime, endTime
+        /***********************************************************/
+        public static WebserviceObject UpdateTimeRegistration(int timeRegId, string startTime, string endTime)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("UpdateTimeRegistration?timeRegId={0}&startTime={1}&endTime={2}", timeRegId, startTime, endTime), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // SetNoteForTimeRegistration - timeRegId, note
+        /***********************************************************/
+        public static WebserviceObject SetNoteForTimeRegistration(int timeRegId, string note)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("SetNoteForTimeRegistration?timeRegId={0}&note={1}", timeRegId, note), typeof(TimeRegistration));
         }
 
         #endregion
