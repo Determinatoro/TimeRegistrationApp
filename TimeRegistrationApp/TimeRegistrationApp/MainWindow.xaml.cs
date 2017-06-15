@@ -343,10 +343,5 @@ namespace TimeRegistrationApp
             AdminWindow adminWindow = new AdminWindow();
             adminWindow.ShowDialog();
         }
-
-        private void btnStartContinue_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

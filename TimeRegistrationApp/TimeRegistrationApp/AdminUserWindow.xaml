@@ -53,6 +53,11 @@
                     CanUserSortColumns="False"   
                     SelectionMode="Single"
                     >
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="dgUsers_MouseDoubleClick"/>
+                    </Style>
+                </DataGrid.Resources>
                 <!--Columns-->
                 <DataGrid.Columns>
                     <!--userId-->

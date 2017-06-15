@@ -43,5 +43,16 @@ namespace TimeRegistrationApp
 
             dgUsers.ItemsSource = oList;
         }
+
+        private void dgUsers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGridRow row = sender as DataGridRow;
+
+            ObservableCollection<object> list = (ObservableCollection<object>)dgUsers.ItemsSource;
+
+            User user = (User)list[row.GetIndex()];
+            AdminUserControlWindow adminUserControlWindow = new AdminUserControlWindow(user);
+            adminUserControlWindow.ShowDialog();
+        }
     }
 }
