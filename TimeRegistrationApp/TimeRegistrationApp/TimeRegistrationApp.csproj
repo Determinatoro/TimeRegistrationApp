@@ -63,24 +63,59 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminCustomerWindow.xaml.cs">
+      <DependentUpon>AdminCustomerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdministrateRolesWindow.xaml.cs">
+      <DependentUpon>AdministrateRolesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdminUserControlWindow.xaml.cs">
+      <DependentUpon>AdminUserControlWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdminUserWindow.xaml.cs">
       <DependentUpon>AdminUserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateOrderRelationWindow.xaml.cs">
+      <DependentUpon>CreateOrderRelationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NoteWindow.xaml.cs">
       <DependentUpon>NoteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdminWindow.xaml.cs">
+      <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="OrdersWindow.xaml.cs">
       <DependentUpon>OrdersWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Webservice\Customer.cs" />
-    <Compile Include="Webservice\Order.cs" />
     <Compile Include="Webservice\OrderRole.cs" />
+    <Compile Include="Webservice\Order.cs" />
     <Compile Include="Webservice\Role.cs" />
     <Compile Include="Webservice\TimeRegistration.cs" />
     <Compile Include="Webservice\User.cs" />
     <Compile Include="Webservice\WebserviceCalls.cs" />
     <Compile Include="Webservice\WebserviceObject.cs" />
+    <Page Include="AdminCustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdministrateRolesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminUserControlWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AdminUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateOrderRelationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

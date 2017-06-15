@@ -17,18 +17,17 @@ using TimeRegistrationApp.Webservice;
 namespace TimeRegistrationApp
 {
     /// <summary>
-    /// Interaction logic for OrdersWindow.xaml
+    /// Interaction logic for AdminUserControlWindow.xaml
     /// </summary>
-    public partial class OrdersWindow : Window
+    public partial class AdminUserControlWindow : Window
     {
-        private MainWindow mainWindow;
-        private User user;
 
-        public OrdersWindow(MainWindow mainWindow, User user)
+        User user;
+
+        public AdminUserControlWindow(User user)
         {
             InitializeComponent();
 
-            this.mainWindow = mainWindow;
             this.user = user;
 
             WebserviceObject wsObj = WebserviceCalls.GetOrders(user.UserId);
@@ -45,43 +44,41 @@ namespace TimeRegistrationApp
 
             ObservableCollection<object> oList;
             oList = new ObservableCollection<object>(orderList);
-            
+
             dgOrders.ItemsSource = oList;
+
+            GetTimeRegistrations();
         }
 
         private void dgOrders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGridRow row = sender as DataGridRow;
-            
+
             ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
 
             Order order = (Order)list[row.GetIndex()];
-            mainWindow.SetOrderId(order);
-            Close();
         }
 
-        private void dgOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void GetTimeRegistrations()
         {
-            ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
+            WebserviceObject wsObj = WebserviceCalls.GetTimeRegistrations(user.UserId);
 
-            Order order = (Order)list[dgOrders.SelectedIndex];
+            ObservableCollection<TimeRegistration> list = new ObservableCollection<TimeRegistration>();
 
-            var leader = order.RolesListFormatted.Where(x => x.Leader == true).ToList();
+            foreach (TimeRegistration obj in (List<object>)wsObj.Response)
+                list.Add(obj);
 
-            if (leader.Count == 0)
-                rwLeader.Height = new GridLength(0, GridUnitType.Pixel);
-            else
-                rwLeader.Height = new GridLength(30, GridUnitType.Pixel);
-        }
+            list = new ObservableCollection<TimeRegistration>(from o in list orderby DateTime.Parse(o.StartTime) descending select o);
 
-        private void btnAdministrateRoles_Click(object sender, RoutedEventArgs e)
-        {
-            ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
+            var tr = (from o in list where o.EndTime == "" select o).FirstOrDefault();
 
-            var order = (Order)list[dgOrders.SelectedIndex];
+            if (tr != null)
+            {
+                list.Remove(tr);
+                list.Insert(0, tr);
+            }
 
-            AdministrateRolesWindow window = new AdministrateRolesWindow(this, order, user);
-            window.ShowDialog();
+            dgTimeRegistrations.ItemsSource = list;
         }
     }
 }

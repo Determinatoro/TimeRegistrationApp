@@ -16,8 +16,7 @@ namespace TimeRegistrationApp.Webservice
         // Webservice URL
         private static string webservice = "http://jako3498.web.techcollege.dk/TimeRegistration.asmx/";
         // Web client used to call webservice
-        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8
-    };
+        private static WebClient wc = new WebClient() { Encoding = Encoding.UTF8 };
 
         #endregion
 
@@ -47,7 +46,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         // Parse dictionary into object
         /***********************************************************/
-        private static Object GetObject(this Dictionary<string, object> dict, Type type)
+        private static Object GetObject(this Dictionary<string, object> dict, Type type, Type secondary)
         {
             var obj = Activator.CreateInstance(type);
 
@@ -60,6 +59,42 @@ namespace TimeRegistrationApp.Webservice
                 if (value is Dictionary<string, object>)
                     value = GetObject((Dictionary<string, object>)value, prop.PropertyType);
 
+                if (value is Object[])
+                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType);
+
+                prop.SetValue(obj, value, null);
+            }
+            return obj;
+        }
+
+        /***********************************************************/
+        // Parse dictionary into object
+        /***********************************************************/
+        public static Object GetObject(Dictionary<string, object> dict, Type type)
+        {
+            var obj = Activator.CreateInstance(type);
+
+            foreach (var kv in dict)
+            {
+                var prop = type.GetProperty(kv.Key);
+                if (prop == null) continue;
+
+                object value = kv.Value;
+                if (value is Dictionary<string, object>)
+                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType);
+
+                if (value is Object[])
+                {
+                    List<object> objectList = new List<object>();
+
+                    foreach (var item in (Object[])value)
+                    {
+                        objectList.Add((Dictionary<string, object>)item);
+                    }
+
+                    value = objectList;
+                }
+
                 prop.SetValue(obj, value, null);
             }
             return obj;
@@ -68,7 +103,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         // Get data from webservice call either a list or an object
         /***********************************************************/
-        private static WebserviceObject GetWebserviceObject(string json, Type type)
+        public static WebserviceObject GetWebserviceObject(string json, Type type)
         {
             WebserviceObject wsObj = new JavaScriptSerializer().Deserialize<WebserviceObject>(json);
 
@@ -91,7 +126,7 @@ namespace TimeRegistrationApp.Webservice
 
             return wsObj;
         }
-    
+
         private static WebserviceObject GetWebserviceObjectAfterCall(string query, Type type)
         {
             WebserviceObject wsObj = CallWebservice(query);
@@ -120,6 +155,14 @@ namespace TimeRegistrationApp.Webservice
         public static WebserviceObject GetUsers()
         {
             return GetWebserviceObjectAfterCall("GetUsers", typeof(User));
+        }
+
+        /***********************************************************/
+        // GetUsers - No parameters
+        /***********************************************************/
+        public static WebserviceObject GetCustomers()
+        {
+            return GetWebserviceObjectAfterCall("GetCustomers", typeof(Customer));
         }
 
         /***********************************************************/
@@ -160,6 +203,14 @@ namespace TimeRegistrationApp.Webservice
         public static WebserviceObject EndTimeRegistration(int timeRegId, string endTime)
         {
             return GetWebserviceObjectAfterCall(string.Format("EndTimeRegistration?timeRegId={0}&endTime={1}", timeRegId, endTime), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // CreateTimeRegistration - startTime, endTime, userId, orderId 
+        /***********************************************************/
+        public static WebserviceObject CreateTimeRegistration(string startTime, string endTime, int userId, int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateTimeRegistration?startTime={0}&endTime={1}&userId={2}&orderId={3}", startTime, endTime, userId, orderId), typeof(TimeRegistration));
         }
 
         /***********************************************************/

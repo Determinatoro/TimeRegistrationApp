@@ -1,0 +1,123 @@
+﻿<Window x:Class="TimeRegistrationApp.CreateOrderRelationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeRegistrationApp"
+        mc:Ignorable="d"
+        Title="TimeRegistrationApp - Create order relation" Height="500" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+    <Grid>
+        <Image Source="Resources/background.png" Stretch="Fill"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid
+                    Name="dgUsers"                    
+                    Margin="1"                    
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"                
+                    >
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#DDDDDD"/>
+                </DataGrid.Resources>
+                <!--Columns-->
+                <DataGrid.Columns>
+                    <!--ID-->
+                    <DataGridTemplateColumn Header="ID" IsReadOnly="True" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label 
+                                        Content="{Binding Path=UserId}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--Name-->
+                    <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label
+                                        Name="tbEndTime"                                                                                       
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Name}"
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid
+                Grid.Column="1"
+                    Name="dgRoles"                    
+                    Margin="1"                    
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"                
+                    >
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#DDDDDD"/>
+                </DataGrid.Resources>
+                <!--Columns-->
+                <DataGrid.Columns>
+                    <!--Rolename-->
+                    <DataGridTemplateColumn Header="Rolename" IsReadOnly="True" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label 
+                                        Content="{Binding Path=Name}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Grid.Row="2"
+                  Grid.ColumnSpan="2"
+                  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--CREATE-->
+                <Button
+                    Name="btnCreate"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Column="1"
+                    BorderBrush="#444444"
+                    Content="Create order relation"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnCreate_Click" 
+                    />
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

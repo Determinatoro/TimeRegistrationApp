@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeRegistrationApp.Webservice
 {
-    class OrderRole
+    public class OrderRole
     {
         private int orderRoleId;
         private int orderId;
@@ -149,6 +149,14 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 roleName = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return firstName + " " + lastName;
             }
         }
     }
