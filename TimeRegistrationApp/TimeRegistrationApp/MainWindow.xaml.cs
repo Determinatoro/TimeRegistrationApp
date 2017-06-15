@@ -37,13 +37,15 @@ namespace TimeRegistrationApp
             if (!user.Admin)
                 btnAdminControls.Visibility = Visibility.Hidden;
 
-            SetStartAndEndTime(DateTime.Now, DateTime.Now);
+            SetStartAndEndTime(DateTime.Now, DateTime.Today);
 
             tbStartTimeHour.MaxLength = 2;
             tbStartTimeMinutes.MaxLength = 2;
 
             GetTimeRegistrations();
         }
+
+        #region Functions
 
         public void GetTimeRegistrations()
         {
@@ -83,11 +85,8 @@ namespace TimeRegistrationApp
             {
                 dpEndTimeDate.SelectedDate = endTime;
 
-                if (endTime != startTime)
-                {
-                    tbEndTimeHour.Text = endTime.Value.ToString("HH");
-                    tbEndTimeMinutes.Text = endTime.Value.ToString("mm");
-                }
+                tbEndTimeHour.Text = endTime.Value.ToString("HH");
+                tbEndTimeMinutes.Text = endTime.Value.ToString("mm");
             }
             else
             {
@@ -98,6 +97,8 @@ namespace TimeRegistrationApp
             tbStartTimeHour.Text = startTime.ToString("HH");
             tbStartTimeMinutes.Text = startTime.ToString("mm");
         }
+
+        #endregion
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
@@ -132,6 +133,10 @@ namespace TimeRegistrationApp
                     MessageBox.Show(wsObj.Response.ToString());
             }
         }
+
+        #region TimeRegistration
+
+        #region TextBox events
 
         private void tbTime_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -175,7 +180,6 @@ namespace TimeRegistrationApp
                         break;
                 }
 
-
                 e.Handled = true;
             }
         }
@@ -187,8 +191,11 @@ namespace TimeRegistrationApp
             tb.Text = tb.Text.PadLeft(2, '0');
         }
 
-        #region TimeRegistration
+        #endregion
 
+        /***********************************************************/
+        // Double click on datagrid row
+        /***********************************************************/
         private void dgTimeRegistrations_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             var dgr = sender as DataGridRow;
@@ -201,6 +208,9 @@ namespace TimeRegistrationApp
             noteWindow.ShowDialog();
         }
 
+        /***********************************************************/
+        // Selected datagridrow
+        /***********************************************************/
         private void dgTimeRegistrations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -217,9 +227,7 @@ namespace TimeRegistrationApp
                     SetStartAndEndTime(dtStart, dtEnd);
                 }
                 else
-                {
                     SetStartAndEndTime(dtStart, null);
-                }
             }
             catch { }
         }
@@ -281,7 +289,7 @@ namespace TimeRegistrationApp
                 GetTimeRegistrations();
         }
 
-        private void btnSetUpdate_Click(object sender, RoutedEventArgs e)
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             if (tbStartTimeHour.Text == "" || tbStartTimeMinutes.Text == "" || tbEndTimeHour.Text == "" || tbEndTimeMinutes.Text == "")
             {
@@ -316,6 +324,44 @@ namespace TimeRegistrationApp
 
             if (wsObj.Success)
                 GetTimeRegistrations();
+            else
+                MessageBox.Show(wsObj.Response.ToString());
+        }
+
+        private void btnSet_Click(object sender, RoutedEventArgs e)
+        {
+            if (order == null)
+            {
+                MessageBox.Show("Please select an order");
+                return;
+            }
+
+            if (tbStartTimeHour.Text == "" || tbStartTimeMinutes.Text == "" || tbEndTimeHour.Text == "" || tbEndTimeMinutes.Text == "")
+            {
+                MessageBox.Show("Please fill out hours and minutes");
+                return;
+            }
+
+            var dtStart = DateTime.Parse(dpStartTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
+            TimeSpan ts = new TimeSpan(int.Parse(tbStartTimeHour.Text), int.Parse(tbStartTimeMinutes.Text), 0);
+            dtStart += ts;
+
+            var dtEnd = DateTime.Parse(dpEndTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
+            ts = new TimeSpan(int.Parse(tbEndTimeHour.Text), int.Parse(tbEndTimeMinutes.Text), 0);
+            dtEnd += ts;
+
+            if (dtEnd < dtStart)
+            {
+                MessageBox.Show("End time is before start time");
+                return;
+            }
+
+            var wsObj = WebserviceCalls.CreateTimeRegistration(dtStart.ToString("yyyy-MM-dd'T'HH:mm:ss"), dtEnd.ToString("yyyy-MM-dd'T'HH:mm:ss"), user.UserId, order.OrderId);
+
+            if (wsObj.Success)
+                GetTimeRegistrations();
+            else
+                MessageBox.Show(wsObj.Response.ToString());
         }
 
         private void btnDeleteTimeRegistration_Click(object sender, RoutedEventArgs e)
@@ -344,9 +390,6 @@ namespace TimeRegistrationApp
             adminWindow.ShowDialog();
         }
 
-        private void btnStartContinue_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }
