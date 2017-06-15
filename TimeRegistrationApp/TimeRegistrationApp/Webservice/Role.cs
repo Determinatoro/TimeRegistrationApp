@@ -10,6 +10,7 @@ namespace TimeRegistrationApp.Webservice
     {
         private int roleId;
         private string name;
+        private bool leader;
 
         public Role(int roleId, string name)
         {
@@ -45,6 +46,19 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 name = value;
+            }
+        }
+
+        public bool Leader
+        {
+            get
+            {
+                return leader;
+            }
+
+            set
+            {
+                leader = value;
             }
         }
     }

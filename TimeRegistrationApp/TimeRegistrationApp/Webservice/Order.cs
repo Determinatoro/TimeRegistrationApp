@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TimeRegistrationApp.Webservice
 {
-    public class Order : INotifyPropertyChanged
+    public class Order
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
-        }
-
         private int orderId;
         private string orderName;
         private string description;
-        private string customerName;
-        private string roleName;
+        private string customerName;        
+        private List<object> rolesList;
+
+        public Order()
+        {
+
+        }
 
         public int OrderId
         {
@@ -35,7 +29,6 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 orderId = value;
-                NotifyPropertyChanged("OrderId");
             }
         }
 
@@ -49,7 +42,6 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 orderName = value;
-                NotifyPropertyChanged("OrderName");
             }
         }
 
@@ -63,7 +55,6 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 description = value;
-                NotifyPropertyChanged("Description");
             }
         }
 
@@ -77,36 +68,58 @@ namespace TimeRegistrationApp.Webservice
             set
             {
                 customerName = value;
-                NotifyPropertyChanged("CustomerName");
             }
         }
 
-        public string RoleName
+        public List<object> RolesList
         {
             get
             {
-                return roleName;
+                return rolesList;
             }
 
             set
             {
-                roleName = value;
-                NotifyPropertyChanged("RoleName");
+                if (rolesList == null || rolesList.OfType<Role>().Count() != rolesList.Count)
+                {
+                    List<Role> temp = new List<Role>();
+
+                    foreach (var item in value)
+                        temp.Add((Role)WebserviceCalls.GetObject((Dictionary<string, object>)item, typeof(Role)));
+
+                    rolesList = new List<object>();
+
+                    foreach (Role item in temp)
+                        rolesList.Add(item);                    
+                }
+                else
+                    rolesList = value;
             }
         }
 
-        public Order(int orderId, string orderName, string description, string customerName, string roleName)
+        public string Roles
         {
-            this.OrderId = orderId;
-            this.OrderName = orderName;
-            this.Description = description;
-            this.CustomerName = customerName;
-            this.RoleName = roleName;
-        }
+            get
+            {
+                if (rolesList.OfType<Role>().Count() == rolesList.Count)
+                {
+                    string roles = "";
 
-        public Order()
-        {
+                    foreach (Role item in rolesList)
+                    {
+                        if (rolesList.IndexOf(item) != rolesList.Count - 1)
+                            roles += item.Name + ", ";
+                        else
+                            roles += item.Name; 
+                    }
 
+                    return roles;
+                }
+                else
+                {
+                    return "";
+                }
+            }          
         }
     }
 }

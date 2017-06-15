@@ -47,7 +47,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         // Parse dictionary into object
         /***********************************************************/
-        private static Object GetObject(this Dictionary<string, object> dict, Type type)
+        private static Object GetObject(this Dictionary<string, object> dict, Type type, Type secondary)
         {
             var obj = Activator.CreateInstance(type);
 
@@ -60,6 +60,42 @@ namespace TimeRegistrationApp.Webservice
                 if (value is Dictionary<string, object>)
                     value = GetObject((Dictionary<string, object>)value, prop.PropertyType);
 
+                if (value is Object[])
+                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType);
+
+                prop.SetValue(obj, value, null);
+            }
+            return obj;
+        }
+
+        /***********************************************************/
+        // Parse dictionary into object
+        /***********************************************************/
+        public static Object GetObject(Dictionary<string, object> dict, Type type)
+        {
+            var obj = Activator.CreateInstance(type);
+
+            foreach (var kv in dict)
+            {
+                var prop = type.GetProperty(kv.Key);
+                if (prop == null) continue;
+
+                object value = kv.Value;
+                if (value is Dictionary<string, object>)
+                    value = GetObject((Dictionary<string, object>)value, prop.PropertyType);
+
+                if (value is Object[])
+                {
+                    List<object> objectList = new List<object>();
+
+                    foreach (var item in (Object[])value)
+                    {
+                        objectList.Add((Dictionary<string, object>)item);
+                    }
+
+                    value = objectList;
+                }
+
                 prop.SetValue(obj, value, null);
             }
             return obj;
@@ -68,7 +104,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         // Get data from webservice call either a list or an object
         /***********************************************************/
-        private static WebserviceObject GetWebserviceObject(string json, Type type)
+        public static WebserviceObject GetWebserviceObject(string json, Type type)
         {
             WebserviceObject wsObj = new JavaScriptSerializer().Deserialize<WebserviceObject>(json);
 
@@ -91,7 +127,31 @@ namespace TimeRegistrationApp.Webservice
 
             return wsObj;
         }
-    
+
+      /*  private static WebserviceObject GetWebserviceObject(string json, Type type, Type typeSec)
+        {
+            WebserviceObject wsObj = new JavaScriptSerializer().Deserialize<WebserviceObject>(json);
+
+            if (wsObj.Success)
+            {
+                if (wsObj.Response as object[] != null)
+                {
+                    List<object> tempList = new List<object>();
+
+                    foreach (var item in (object[])wsObj.Response)
+                        tempList.Add(GetObject((Dictionary<string, object>)item, type));
+
+                    wsObj.Response = tempList;
+                }
+                else if (wsObj.Response as string != null)
+                    wsObj.Response = wsObj.Response as string;
+                else
+                    wsObj.Response = GetObject((Dictionary<string, object>)wsObj.Response, type);
+            }
+
+            return wsObj;
+        }*/
+
         private static WebserviceObject GetWebserviceObjectAfterCall(string query, Type type)
         {
             WebserviceObject wsObj = CallWebservice(query);
@@ -101,6 +161,16 @@ namespace TimeRegistrationApp.Webservice
 
             return wsObj;
         }
+
+       /* private static WebserviceObject GetWebserviceObjectAfterCall(string query, Type type, Type typeSec)
+        {
+            WebserviceObject wsObj = CallWebservice(query);
+
+            if (wsObj.Success)
+                wsObj = GetWebserviceObject((string)wsObj.Response, type, typeSec);
+
+            return wsObj;
+        }*/
 
         #endregion
 

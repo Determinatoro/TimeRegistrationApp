@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRegistrationApp"
         mc:Ignorable="d"
-               Title="Orders" Height="500" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+               Title="TimeRegistrationApp - Orders" Height="500" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
         <Image Source="Resources/background.png" Stretch="Fill"/>
 
@@ -69,12 +69,12 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--RoleName-->
-                    <DataGridTemplateColumn Header="Role name" IsReadOnly="True" Width="*">
+                    <!--Roles-->
+                    <DataGridTemplateColumn Header="Roles" IsReadOnly="True" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Label 
-                                        Content="{Binding Path=RoleName}"                                                                                     
+                                        Content="{Binding Path=Roles}"                                                                                     
                                         BorderBrush="#444444"                                                   
                                         />
                             </DataTemplate>

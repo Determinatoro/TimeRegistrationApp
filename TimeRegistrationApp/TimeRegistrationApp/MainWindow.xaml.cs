@@ -74,7 +74,7 @@ namespace TimeRegistrationApp
             this.order = order;
             tbOrderId.Text = order.OrderId.ToString();
             lbDescription.Content = order.Description;
-            lbRole.Content = order.RoleName;
+            lbRole.Content = order.Roles;
         }
 
         private void SetStartAndEndTime(DateTime startTime, DateTime? endTime)
@@ -126,6 +126,10 @@ namespace TimeRegistrationApp
                 int orderId = int.Parse(tbOrderId.Text);
 
                 WebserviceObject wsObj = WebserviceCalls.GetOrder(user.UserId, orderId);
+
+                var order = (Order)wsObj.Response;
+
+                
 
                 if (wsObj.Success)
                     SetOrderId((Order)wsObj.Response);
@@ -193,6 +197,8 @@ namespace TimeRegistrationApp
 
         #endregion
 
+        #region DataGrid events
+
         /***********************************************************/
         // Double click on datagrid row
         /***********************************************************/
@@ -231,6 +237,10 @@ namespace TimeRegistrationApp
             }
             catch { }
         }
+
+        #endregion
+
+        #region Button events
 
         private void btnStartContinue_Click(object sender, RoutedEventArgs e)
         {
@@ -291,20 +301,24 @@ namespace TimeRegistrationApp
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            // Check if start- and endtime hours and minutes has been filled out
             if (tbStartTimeHour.Text == "" || tbStartTimeMinutes.Text == "" || tbEndTimeHour.Text == "" || tbEndTimeMinutes.Text == "")
             {
                 MessageBox.Show("Please fill out hours and minutes");
                 return;
             }
 
+            // Get start time
             var dtStart = DateTime.Parse(dpStartTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
             TimeSpan ts = new TimeSpan(int.Parse(tbStartTimeHour.Text), int.Parse(tbStartTimeMinutes.Text), 0);
             dtStart += ts;
 
+            // Get end time
             var dtEnd = DateTime.Parse(dpEndTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
             ts = new TimeSpan(int.Parse(tbEndTimeHour.Text), int.Parse(tbEndTimeMinutes.Text), 0);
             dtEnd += ts;
 
+            // Check if end time is before start time
             if (dtEnd < dtStart)
             {
                 MessageBox.Show("End time is before start time");
@@ -315,13 +329,15 @@ namespace TimeRegistrationApp
 
             TimeRegistration tr = null;
 
+            // If no row is selected select first object
             if (dgTimeRegistrations.SelectedIndex == -1)
                 tr = list[0];
             else
                 tr = list[dgTimeRegistrations.SelectedIndex];
 
+            // Update time registration
             var wsObj = WebserviceCalls.UpdateTimeRegistration(tr.TimeRegId, dtStart.ToString("yyyy-MM-dd'T'HH:mm:ss"), dtEnd.ToString("yyyy-MM-dd'T'HH:mm:ss"));
-
+            
             if (wsObj.Success)
                 GetTimeRegistrations();
             else
@@ -330,35 +346,41 @@ namespace TimeRegistrationApp
 
         private void btnSet_Click(object sender, RoutedEventArgs e)
         {
+            // Check if an order has been selected
             if (order == null)
             {
                 MessageBox.Show("Please select an order");
                 return;
             }
 
+            // Check if start- and endtime hours and minutes has been filled out
             if (tbStartTimeHour.Text == "" || tbStartTimeMinutes.Text == "" || tbEndTimeHour.Text == "" || tbEndTimeMinutes.Text == "")
             {
                 MessageBox.Show("Please fill out hours and minutes");
                 return;
             }
 
+            // Get start time
             var dtStart = DateTime.Parse(dpStartTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
             TimeSpan ts = new TimeSpan(int.Parse(tbStartTimeHour.Text), int.Parse(tbStartTimeMinutes.Text), 0);
             dtStart += ts;
 
+            // Get end time
             var dtEnd = DateTime.Parse(dpEndTimeDate.SelectedDate.Value.ToString("dd-MM-yyyy"));
             ts = new TimeSpan(int.Parse(tbEndTimeHour.Text), int.Parse(tbEndTimeMinutes.Text), 0);
             dtEnd += ts;
 
+            // Check if endtime is before starttime
             if (dtEnd < dtStart)
             {
                 MessageBox.Show("End time is before start time");
                 return;
             }
 
+            // Create time registration
             var wsObj = WebserviceCalls.CreateTimeRegistration(dtStart.ToString("yyyy-MM-dd'T'HH:mm:ss"), dtEnd.ToString("yyyy-MM-dd'T'HH:mm:ss"), user.UserId, order.OrderId);
-
-            if (wsObj.Success)
+            
+            if (wsObj.Success)                
                 GetTimeRegistrations();
             else
                 MessageBox.Show(wsObj.Response.ToString());
@@ -366,21 +388,28 @@ namespace TimeRegistrationApp
 
         private void btnDeleteTimeRegistration_Click(object sender, RoutedEventArgs e)
         {
+            // Has there been selected a row
             if (dgTimeRegistrations.SelectedIndex == -1)
             {
                 MessageBox.Show("Please select a time registration");
                 return;
             }
 
+            // Get the selected row object
             ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
 
             var tr = list[dgTimeRegistrations.SelectedIndex];
 
+            // Delete the object
             var wsObj = WebserviceCalls.DeleteTimeRegistration(tr.TimeRegId);
-
-            if (wsObj.Success)
+            
+            if (wsObj.Success)                
                 GetTimeRegistrations();
+            else
+                MessageBox.Show(wsObj.Response.ToString());
         }
+
+        #endregion
 
         #endregion
 
