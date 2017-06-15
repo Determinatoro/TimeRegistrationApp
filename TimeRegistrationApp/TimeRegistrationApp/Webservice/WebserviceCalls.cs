@@ -170,6 +170,14 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
+        // CreateTimeRegistration - startTime, endTime, userId, orderId 
+        /***********************************************************/
+        public static WebserviceObject CreateTimeRegistration(string startTime, string endTime, int userId, int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateTimeRegistration?startTime={0}&endTime={1}&userId={2}&orderId={3}", startTime, endTime, userId, orderId), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
         // DeleteTimeRegistration - timeRegId
         /***********************************************************/
         public static WebserviceObject DeleteTimeRegistration(int timeRegId)

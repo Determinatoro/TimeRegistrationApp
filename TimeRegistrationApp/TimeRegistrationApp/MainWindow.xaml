@@ -333,19 +333,43 @@
 
                         </Grid>
 
-                        <!--SET / UPDATE-->
-                        <Button
-                            Name="btnSetUpdate"
+                        <Grid
+                            Grid.Column="100"
+                            Grid.Row="1" 
+                            >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--SET / UPDATE-->
+                            <Button
+                            Name="btnUpdate"
                             Margin="1"
                             FontSize="14"                    
                             BorderBrush="#444444"
-                            Content="Set / Update"
+                            Content="Update"
                             Foreground="#444444"
                             Background="{StaticResource brushGrayBackground}"
                             Style="{StaticResource styleButton}" 
-                            Grid.Column="100"
-                            Grid.Row="1" Click="btnSetUpdate_Click"
+                            
+                            Click="btnUpdate_Click"
                             />
+
+                            <!--SET / UPDATE-->
+                            <Button
+                            Name="btnSet"
+                            Margin="1"
+                            FontSize="14"                    
+                            BorderBrush="#444444"
+                            Content="Set"
+                            Foreground="#444444"
+                            Background="{StaticResource brushGrayBackground}"
+                            Style="{StaticResource styleButton}" 
+                            Grid.Column="1"   
+                                Click="btnSet_Click"
+                            />
+                        </Grid>
 
                     </Grid>
 
