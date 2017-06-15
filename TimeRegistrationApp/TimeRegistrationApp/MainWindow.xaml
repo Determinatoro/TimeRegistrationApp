@@ -54,7 +54,8 @@
                     Content="Start / Continue"
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
-                    Style="{StaticResource styleButton}" 
+                    Style="{StaticResource styleButton}"
+                    Click="btnStartContinue_Click"
                     />
 
                 <!--STOP-->

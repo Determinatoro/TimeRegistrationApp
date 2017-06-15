@@ -148,8 +148,13 @@ namespace TimeRegistrationApp
 
         private void btnAdminControls_click(object sender, RoutedEventArgs e)
         {
-            AdminUserWindow adminWindow = new AdminUserWindow();
+            AdminWindow adminWindow = new AdminWindow();
             adminWindow.ShowDialog();
+        }
+
+        private void btnStartContinue_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

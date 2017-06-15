@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:TimeRegistrationApp"
       mc:Ignorable="d" 
       Height="500" Width="720"
-      Title="AdminUserWindow">
+      Title="AdminUserWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     
     <Grid>
         <Image Source="Resources/background.png" Stretch="Fill"/>
@@ -66,7 +66,18 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--Name-->
+                    <!--Username-->
+                    <DataGridTemplateColumn Header="Username" IsReadOnly="True" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label 
+                                        Content="{Binding Path=Username}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--FirstName-->
                     <DataGridTemplateColumn Header="Firstname" IsReadOnly="True" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -77,7 +88,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--Description-->
+                    <!--LastName-->
                     <DataGridTemplateColumn Header="Lastname" IsReadOnly="True" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -89,7 +100,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--RoleName-->
+                    <!--Admin-->
                     <DataGridTemplateColumn Header="Admin" IsReadOnly="True" Width="0.3*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
