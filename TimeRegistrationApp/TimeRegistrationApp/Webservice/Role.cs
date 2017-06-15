@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TimeRegistrationApp.Webservice
 {
-    class Role
+    public class Role
     {
         private int roleId;
         private string name;

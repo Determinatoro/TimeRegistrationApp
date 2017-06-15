@@ -83,5 +83,13 @@ namespace TimeRegistrationApp.Webservice
                 admin = value;
             }
         }
+
+        public string Name
+        {
+            get
+            {
+                return firstName + " " + lastName;
+            }
+        }
     }
 }

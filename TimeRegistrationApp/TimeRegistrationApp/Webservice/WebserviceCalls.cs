@@ -127,30 +127,6 @@ namespace TimeRegistrationApp.Webservice
             return wsObj;
         }
 
-      /*  private static WebserviceObject GetWebserviceObject(string json, Type type, Type typeSec)
-        {
-            WebserviceObject wsObj = new JavaScriptSerializer().Deserialize<WebserviceObject>(json);
-
-            if (wsObj.Success)
-            {
-                if (wsObj.Response as object[] != null)
-                {
-                    List<object> tempList = new List<object>();
-
-                    foreach (var item in (object[])wsObj.Response)
-                        tempList.Add(GetObject((Dictionary<string, object>)item, type));
-
-                    wsObj.Response = tempList;
-                }
-                else if (wsObj.Response as string != null)
-                    wsObj.Response = wsObj.Response as string;
-                else
-                    wsObj.Response = GetObject((Dictionary<string, object>)wsObj.Response, type);
-            }
-
-            return wsObj;
-        }*/
-
         private static WebserviceObject GetWebserviceObjectAfterCall(string query, Type type)
         {
             WebserviceObject wsObj = CallWebservice(query);
@@ -160,16 +136,6 @@ namespace TimeRegistrationApp.Webservice
 
             return wsObj;
         }
-
-       /* private static WebserviceObject GetWebserviceObjectAfterCall(string query, Type type, Type typeSec)
-        {
-            WebserviceObject wsObj = CallWebservice(query);
-
-            if (wsObj.Success)
-                wsObj = GetWebserviceObject((string)wsObj.Response, type, typeSec);
-
-            return wsObj;
-        }*/
 
         #endregion
 
@@ -269,6 +235,46 @@ namespace TimeRegistrationApp.Webservice
         public static WebserviceObject SetNoteForTimeRegistration(int timeRegId, string note)
         {
             return GetWebserviceObjectAfterCall(string.Format("SetNoteForTimeRegistration?timeRegId={0}&note={1}", timeRegId, note), typeof(TimeRegistration));
+        }
+
+        /***********************************************************/
+        // GetOrderRoles - orderId
+        /***********************************************************/
+        public static WebserviceObject GetOrderRoles(int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetOrderRoles?orderid={0}", orderId), typeof(OrderRole));
+        }
+
+        /***********************************************************/
+        // GetRoles
+        /***********************************************************/
+        public static WebserviceObject GetRoles()
+        {
+            return GetWebserviceObjectAfterCall("GetRoles", typeof(Role));
+        }
+
+        /***********************************************************/
+        // UpdateOrderRole - orderRoleId, orderId, userId, roleId
+        /***********************************************************/
+        public static WebserviceObject UpdateOrderRole(int orderRoleId, int orderId, int userId, int roleId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("UpdateOrderRole?orderRoleId={0}&orderId={1}&userId={2}&roleId={3}", orderRoleId, orderId, userId, roleId), typeof(OrderRole));
+        }
+
+        /***********************************************************/
+        // CreateOrderRole - orderId, userId, roleId
+        /***********************************************************/
+        public static WebserviceObject CreateOrderRole(int orderId, int userId, int roleId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateOrderRole?orderId={0}&userId={1}&roleId={2}", orderId, userId, roleId), typeof(OrderRole));
+        }
+
+        /***********************************************************/
+        // CreateOrderRole - orderId, userId, roleId
+        /***********************************************************/
+        public static WebserviceObject DeleteOrderRole(int orderRoleId, int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteOrderRole?orderRoleId={0}&orderId={1}", orderRoleId, orderId), typeof(OrderRole));
         }
 
         #endregion

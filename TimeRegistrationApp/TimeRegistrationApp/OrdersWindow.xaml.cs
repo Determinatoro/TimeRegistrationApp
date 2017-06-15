@@ -59,5 +59,29 @@ namespace TimeRegistrationApp
             mainWindow.SetOrderId(order);
             Close();
         }
+
+        private void dgOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
+
+            Order order = (Order)list[dgOrders.SelectedIndex];
+
+            var leader = order.RolesListFormatted.Where(x => x.Leader == true).ToList();
+
+            if (leader.Count == 0)
+                rwLeader.Height = new GridLength(0, GridUnitType.Pixel);
+            else
+                rwLeader.Height = new GridLength(30, GridUnitType.Pixel);
+        }
+
+        private void btnAdministrateRoles_Click(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
+
+            var order = (Order)list[dgOrders.SelectedIndex];
+
+            AdministrateRolesWindow window = new AdministrateRolesWindow(this, order, user);
+            window.ShowDialog();
+        }
     }
 }

@@ -11,8 +11,8 @@ namespace TimeRegistrationApp.Webservice
         private int orderId;
         private string orderName;
         private string description;
-        private string customerName;        
-        private List<object> rolesList;
+        private string customerName;
+        private List<object> rolesList;        
 
         public Order()
         {
@@ -90,7 +90,7 @@ namespace TimeRegistrationApp.Webservice
                     rolesList = new List<object>();
 
                     foreach (Role item in temp)
-                        rolesList.Add(item);                    
+                        rolesList.Add(item);
                 }
                 else
                     rolesList = value;
@@ -110,7 +110,7 @@ namespace TimeRegistrationApp.Webservice
                         if (rolesList.IndexOf(item) != rolesList.Count - 1)
                             roles += item.Name + ", ";
                         else
-                            roles += item.Name; 
+                            roles += item.Name;
                     }
 
                     return roles;
@@ -119,7 +119,25 @@ namespace TimeRegistrationApp.Webservice
                 {
                     return "";
                 }
-            }          
+            }
+        }
+
+        public List<Role> RolesListFormatted
+        {
+            get
+            {
+                if (rolesList.OfType<Role>().Count() == rolesList.Count)
+                {
+                    List<Role> temp = new List<Role>();
+
+                    foreach (Role item in RolesList)
+                        temp.Add(item);
+
+                    return temp;
+                }
+                else
+                    return new List<Role>();
+            }
         }
     }
 }
