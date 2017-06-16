@@ -50,8 +50,10 @@ namespace TimeRegistrationApp
             else
                 MessageBox.Show(wsObj.Response.ToString());
 
+            orderRoleList = orderRoleList.OrderBy(x => x.Name).ToList();
+
             ObservableCollection<object> oList;
-            oList = new ObservableCollection<object>(orderRoleList);
+            oList = new ObservableCollection<object>(orderRoleList);            
 
             dgOrderRoles.ItemsSource = oList;
         }

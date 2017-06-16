@@ -296,9 +296,17 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         // DELETE ORDER ROLE - orderroleId
         /***********************************************************/
-        public static WebserviceObject DeleteOrderRole(int orderRoleId)
+        public static WebserviceObject DeleteOrderRole(int orderRoleId, int orderId)
         {
-            return GetWebserviceObjectAfterCall(string.Format("DeleteOrderRole?orderRoleId={0}", orderRoleId), typeof(OrderRole));
+            return GetWebserviceObjectAfterCall(string.Format("DeleteOrderRole?orderRoleId={0}&orderId={1}", orderRoleId, orderId), typeof(OrderRole));
+        }
+
+        /***********************************************************/
+        // UPDATE ORDER ROLE - orderroleId
+        /***********************************************************/
+        public static WebserviceObject UpdateOrderRole(int orderRoleId, int orderId, int userId, int roleId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("UpdateOrderRole?orderRoleId={0}&orderId={1}&userId={2}&roleId={3}", orderRoleId, orderId, userId, roleId), typeof(OrderRole));
         }
 
         /***********************************************************/
@@ -315,14 +323,6 @@ namespace TimeRegistrationApp.Webservice
         public static WebserviceObject DeleteUser(int userId)
         {
             return GetWebserviceObjectAfterCall(string.Format("DeleteUser?userId={0}", userId), typeof(User));
-        }
-
-        /***********************************************************/
-        // GET CUSTOMERS - No parameters
-        /***********************************************************/
-        public static WebserviceObject GetCustomers()
-        {
-            return GetWebserviceObjectAfterCall(string.Format("GetCustomers"), typeof(Customer));
         }
 
         /***********************************************************/
