@@ -76,11 +76,11 @@ namespace TimeRegistrationApp
 
         private void btnDeleteOrderRole_Click(object sender, RoutedEventArgs e)
         {
-            ObservableCollection<object> list = (ObservableCollection<object>)dgOrderRoles.ItemsSource;
+            /*ObservableCollection<object> list = (ObservableCollection<object>)dgOrderRoles.ItemsSource;
 
             var orderRole = (OrderRole)list[dgOrderRoles.SelectedIndex];
 
-            WebserviceObject wsObj = WebserviceCalls.DeleteOrderRole(orderRole.OrderRoleId, orderRole.OrderId);            
+            WebserviceObject wsObj = WebserviceCalls.DeleteOrderRole(orderRole.OrderRoleId, orderRole.OrderId);
 
             if (wsObj.Success)
             {
@@ -88,6 +88,9 @@ namespace TimeRegistrationApp
             }
             else
                 MessageBox.Show(wsObj.Response.ToString());
+
+    
+    */
         }
     }
 }

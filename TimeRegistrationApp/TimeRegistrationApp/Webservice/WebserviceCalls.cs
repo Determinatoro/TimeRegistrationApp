@@ -318,14 +318,6 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
-        // GET CUSTOMERS - No parameters
-        /***********************************************************/
-        public static WebserviceObject GetCustomers()
-        {
-            return GetWebserviceObjectAfterCall(string.Format("GetCustomers"), typeof(Customer));
-        }
-
-        /***********************************************************/
         // GET CUSTOMERS - orderId
         /***********************************************************/
         public static WebserviceObject GetOrderRoles(int orderId)
