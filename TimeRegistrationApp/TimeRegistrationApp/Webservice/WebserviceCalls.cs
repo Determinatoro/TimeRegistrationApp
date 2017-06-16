@@ -238,31 +238,23 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
-        // GetOrderRoles - orderId
+        // CREATE CUSTOMER - name
         /***********************************************************/
-        public static WebserviceObject GetOrderRoles(int orderId)
+        public static WebserviceObject CreateCustomer(string name)
         {
-            return GetWebserviceObjectAfterCall(string.Format("GetOrderRoles?orderid={0}", orderId), typeof(OrderRole));
+            return GetWebserviceObjectAfterCall(string.Format("CreateCustomer?name={0}", name), typeof(Customer));
         }
 
         /***********************************************************/
-        // GetRoles
+        // CREATE ORDER - userId, name, description, customerId
         /***********************************************************/
-        public static WebserviceObject GetRoles()
+        public static WebserviceObject CreateOrder(int userId, string name, string description, int customerId)
         {
-            return GetWebserviceObjectAfterCall("GetRoles", typeof(Role));
+            return GetWebserviceObjectAfterCall(string.Format("CreateOrder?userId={0}&name={1}&description={2}&customerId={3}", name), typeof(Order));
         }
 
         /***********************************************************/
-        // UpdateOrderRole - orderRoleId, orderId, userId, roleId
-        /***********************************************************/
-        public static WebserviceObject UpdateOrderRole(int orderRoleId, int orderId, int userId, int roleId)
-        {
-            return GetWebserviceObjectAfterCall(string.Format("UpdateOrderRole?orderRoleId={0}&orderId={1}&userId={2}&roleId={3}", orderRoleId, orderId, userId, roleId), typeof(OrderRole));
-        }
-
-        /***********************************************************/
-        // CreateOrderRole - orderId, userId, roleId
+        // CREATE ORDER ROLE - orderId, userId, name, roleId
         /***********************************************************/
         public static WebserviceObject CreateOrderRole(int orderId, int userId, int roleId)
         {
@@ -270,11 +262,123 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
-        // CreateOrderRole - orderId, userId, roleId
+        // CREATE ROLE - name
         /***********************************************************/
-        public static WebserviceObject DeleteOrderRole(int orderRoleId, int orderId)
+        public static WebserviceObject CreateRole(string name)
         {
-            return GetWebserviceObjectAfterCall(string.Format("DeleteOrderRole?orderRoleId={0}&orderId={1}", orderRoleId, orderId), typeof(OrderRole));
+            return GetWebserviceObjectAfterCall(string.Format("CreateRole?name={0}", name), typeof(Role));
+        }
+
+        /***********************************************************/
+        // CREATE USER - firstName, lastName, admin, password
+        /***********************************************************/
+        public static WebserviceObject CreateUser(string firstName, string lastName, bool admin, string password)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("CreateUser?firstName={0}&lastName={1}&admin={2}&password={3}", firstName, lastName, admin, password), typeof(User));
+        }
+
+        /***********************************************************/
+        // DELETE CUSTOMER - customerId
+        /***********************************************************/
+        public static WebserviceObject DeleteCustomer(int customerId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteCustomer?customerId={0}", customerId), typeof(Customer));
+        }
+
+        /***********************************************************/
+        // DELETE ORDER - orderId
+        /***********************************************************/
+        public static WebserviceObject DeleteOrder(int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteOrder?orderId={0}", orderId), typeof(Order));
+        }
+
+        /***********************************************************/
+        // DELETE ORDER ROLE - orderroleId
+        /***********************************************************/
+        public static WebserviceObject DeleteOrderRole(int orderRoleId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteOrderRole?orderRoleId={0}", orderRoleId), typeof(OrderRole));
+        }
+
+        /***********************************************************/
+        // DELETE ROLE - roleId
+        /***********************************************************/
+        public static WebserviceObject DeleteRole(int roleId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteRole?roleId={0}", roleId), typeof(Role));
+        }
+
+        /***********************************************************/
+        // DELETE USER - userId
+        /***********************************************************/
+        public static WebserviceObject DeleteUser(int userId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("DeleteUser?userId={0}", userId), typeof(User));
+        }
+
+        /***********************************************************/
+        // GET CUSTOMERS - No parameters
+        /***********************************************************/
+        public static WebserviceObject GetCustomers()
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetCustomers"), typeof(Customer));
+        }
+
+        /***********************************************************/
+        // GET CUSTOMERS - orderId
+        /***********************************************************/
+        public static WebserviceObject GetOrderRoles(int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetOrderRoles?orderId={0}", orderId), typeof(OrderRole));
+        }
+
+        /***********************************************************/
+        // GET ROLES - No Parameters
+        /***********************************************************/
+        public static WebserviceObject GetRoles()
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetRoles"), typeof(Role));
+        }
+
+        /***********************************************************/
+        // GET USER - userId
+        /***********************************************************/
+        public static WebserviceObject GetUser(int userId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetUser", userId), typeof(User));
+        }
+
+        /***********************************************************/
+        // RESET PASSWORD - userId, password
+        /***********************************************************/
+        public static WebserviceObject ResetPassword(int userId, string password)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("ResetPassword?userId={0}&password={1}", userId, password), typeof(User));
+        }
+
+        /***********************************************************/
+        // UPDATE ORDER ROLE - orderId, userId, roleId
+        /***********************************************************/
+        public static WebserviceObject OrderRole(int orderId, int userId, int roleId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("UpdateOrderRole?orderId={0}?&userId={1}&roleId={2}", orderId, userId, roleId), typeof(OrderRole));
+        }
+
+        /***********************************************************/
+        // UPDATE USER - userId, firstName, lastName, admin
+        /***********************************************************/
+        public static WebserviceObject UpdateUser(int userId, string firstName, string lastName, bool admin)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("UpdateUser?userId={0}&firstName={1}&lastName={2}&admin={3}", userId, firstName, lastName, admin), typeof(User));
+        }
+
+        /***********************************************************/
+        // GetOrder - userId, orderId
+        /***********************************************************/
+        public static WebserviceObject kek(int userId, int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId), typeof(Order));
         }
 
         #endregion
