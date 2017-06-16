@@ -122,11 +122,11 @@
                     Content="Create order"
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
-                    Style="{StaticResource styleButton}" 
+                    Style="{StaticResource styleButton}" Click="btnCreateOrder_Click" 
                     />                
 
                 <!--CREATE ORDER-->
-                <Button
+                <!--<Button
                     Name="btnDeleteOrder"
                     Margin="1"
                     FontSize="14"
@@ -136,7 +136,7 @@
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
                     Style="{StaticResource styleButton}" 
-                    />
+                    />-->
 
             </Grid>
         </Grid>

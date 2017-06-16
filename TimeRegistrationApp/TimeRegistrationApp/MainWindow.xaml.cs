@@ -24,8 +24,20 @@ namespace TimeRegistrationApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        /***********************************************************************/
+        // VARIABLES
+        /***********************************************************************/
+        #region Variables
+
         private User user;
         private Order order;
+
+        #endregion
+
+        /***********************************************************************/
+        // CONSTRUCTOR
+        /***********************************************************************/
+        #region Constructor
 
         public MainWindow(User user)
         {
@@ -33,21 +45,32 @@ namespace TimeRegistrationApp
 
             this.user = user;
 
-            Title = string.Format("Welcome {0} {1}", user.FirstName, user.LastName);
+            Title = string.Format("TimeRegistrationApp - Welcome {0} {1}", user.FirstName, user.LastName);
 
+            // Hides admin controls if user is not admin
             if (!user.Admin)
                 btnAdminControls.Visibility = Visibility.Hidden;
 
+            // Sets default values for start- and endtime
             SetStartAndEndTime(DateTime.Now, DateTime.Today);
-
+           
             tbStartTimeHour.MaxLength = 2;
             tbStartTimeMinutes.MaxLength = 2;
 
+            // Get timeregistrations for the current user
             GetTimeRegistrations();
         }
 
+        #endregion
+
+        /***********************************************************************/
+        // FUNCTIONS
+        /***********************************************************************/
         #region Functions
 
+        /***********************************************************/
+        // Gets the timeregistrations for user logged in
+        /***********************************************************/
         public void GetTimeRegistrations()
         {
             WebserviceObject wsObj = WebserviceCalls.GetTimeRegistrations(user.UserId);
@@ -70,6 +93,9 @@ namespace TimeRegistrationApp
             dgTimeRegistrations.ItemsSource = list;
         }
 
+        /***********************************************************/
+        // Gets information about an order and shows the data on screen
+        /***********************************************************/
         public void SetOrderId(Order order)
         {
             this.order = order;
@@ -78,6 +104,9 @@ namespace TimeRegistrationApp
             lbRole.Content = order.Roles;
         }
 
+        /***********************************************************/
+        // Sets start- and endtime to the specified datetimes
+        /***********************************************************/
         private void SetStartAndEndTime(DateTime startTime, DateTime? endTime)
         {
             dpStartTimeDate.SelectedDate = startTime;
@@ -101,6 +130,14 @@ namespace TimeRegistrationApp
 
         #endregion
 
+        /***********************************************************************/
+        // GENERAL
+        /***********************************************************************/
+        #region General
+
+        /***********************************************************/
+        // "Log out" button click
+        /***********************************************************/
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
             LoginWindow loginWindow = new LoginWindow();
@@ -108,12 +145,25 @@ namespace TimeRegistrationApp
             this.Close();
         }
 
-        private void btnSearchOrders_Click(object sender, RoutedEventArgs e)
+        #endregion
+
+        /***********************************************************************/
+        // ORDERS
+        /***********************************************************************/
+        #region Orders
+
+        /***********************************************************/
+        // More icon besides Order ID textbox click
+        /***********************************************************/
+        private void btnOrders_Click(object sender, RoutedEventArgs e)
         {
             OrdersWindow ordersWindow = new OrdersWindow(this, user);
             ordersWindow.ShowDialog();
         }
 
+        /***********************************************************/
+        // Order ID textbox keydown
+        /***********************************************************/
         private void tbOrderId_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -126,11 +176,7 @@ namespace TimeRegistrationApp
 
                 int orderId = int.Parse(tbOrderId.Text);
 
-                WebserviceObject wsObj = WebserviceCalls.GetOrder(user.UserId, orderId);
-
-                var order = (Order)wsObj.Response;
-
-                
+                WebserviceObject wsObj = WebserviceCalls.GetOrder(user.UserId, orderId);                
 
                 if (wsObj.Success)
                     SetOrderId((Order)wsObj.Response);
@@ -139,16 +185,30 @@ namespace TimeRegistrationApp
             }
         }
 
-        #region TimeRegistration
+        #endregion
 
+        /***********************************************************************/
+        // TIMEREGISTRATIONS
+        /***********************************************************************/
+        #region TimeRegistrations
+
+        /*****************************************************************/
+        // TEXTBOX EVENTS
+        /*****************************************************************/
         #region TextBox events
 
+        /***********************************************************/
+        // Used to only allow numbers to be written in the textbox
+        /***********************************************************/
         private void tbTime_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
+        /***********************************************************/
+        // Used to disable copy, paste and cut in the textbox
+        /***********************************************************/
         private void tbTime_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Command == ApplicationCommands.Copy ||
@@ -159,6 +219,9 @@ namespace TimeRegistrationApp
             }
         }
 
+        /***********************************************************/
+        // Tab between hour and minutes
+        /***********************************************************/
         private void tbTime_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Tab)
@@ -189,6 +252,9 @@ namespace TimeRegistrationApp
             }
         }
 
+        /***********************************************************/
+        // Padleft number with '0'
+        /***********************************************************/
         private void tbTime_Lostfocus(object sender, RoutedEventArgs e)
         {
             var tb = sender as TextBox;
@@ -198,6 +264,9 @@ namespace TimeRegistrationApp
 
         #endregion
 
+        /*****************************************************************/
+        // DATAGRID EVENTS
+        /*****************************************************************/
         #region DataGrid events
 
         /***********************************************************/
@@ -241,8 +310,14 @@ namespace TimeRegistrationApp
 
         #endregion
 
+        /*****************************************************************/
+        // BUTTON EVENTS
+        /*****************************************************************/
         #region Button events
 
+        /***********************************************************/
+        // "Start / Continue" click
+        /***********************************************************/
         private void btnStartContinue_Click(object sender, RoutedEventArgs e)
         {
             ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
@@ -280,6 +355,9 @@ namespace TimeRegistrationApp
                 GetTimeRegistrations();
         }
 
+        /***********************************************************/
+        // "Stop" click
+        /***********************************************************/
         private void btnStop_Click(object sender, RoutedEventArgs e)
         {
             var dt = DateTime.Now;
@@ -300,6 +378,9 @@ namespace TimeRegistrationApp
                 GetTimeRegistrations();
         }
 
+        /***********************************************************/
+        // "Update" click
+        /***********************************************************/
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             // Check if start- and endtime hours and minutes has been filled out
@@ -345,6 +426,9 @@ namespace TimeRegistrationApp
                 MessageBox.Show(wsObj.Response.ToString());
         }
 
+        /***********************************************************/
+        // "Set" click
+        /***********************************************************/
         private void btnSet_Click(object sender, RoutedEventArgs e)
         {
             // Check if an order has been selected
@@ -387,6 +471,9 @@ namespace TimeRegistrationApp
                 MessageBox.Show(wsObj.Response.ToString());
         }
 
+        /***********************************************************/
+        // "Delete timeregistration" click
+        /***********************************************************/
         private void btnDeleteTimeRegistration_Click(object sender, RoutedEventArgs e)
         {
             // Has there been selected a row
@@ -414,10 +501,20 @@ namespace TimeRegistrationApp
 
         #endregion
 
+        /***********************************************************************/
+        // ADMIN
+        /***********************************************************************/
+        #region Admin
+
+        /***********************************************************/
+        // "Admin controls click
+        /***********************************************************/
         private void btnAdminControls_click(object sender, RoutedEventArgs e)
         {
             AdminWindow adminWindow = new AdminWindow();
             adminWindow.ShowDialog();
         }
+
+        #endregion
     }
 }

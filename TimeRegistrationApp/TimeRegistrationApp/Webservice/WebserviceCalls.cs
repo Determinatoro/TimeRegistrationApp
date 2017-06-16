@@ -250,7 +250,7 @@ namespace TimeRegistrationApp.Webservice
         /***********************************************************/
         public static WebserviceObject CreateOrder(int userId, string name, string description, int customerId)
         {
-            return GetWebserviceObjectAfterCall(string.Format("CreateOrder?userId={0}&name={1}&description={2}&customerId={3}", name), typeof(Order));
+            return GetWebserviceObjectAfterCall(string.Format("CreateOrder?userId={0}&name={1}&description={2}&customerId={3}", userId, name, description, customerId), typeof(Order));
         }
 
         /***********************************************************/
@@ -371,14 +371,6 @@ namespace TimeRegistrationApp.Webservice
         public static WebserviceObject UpdateUser(int userId, string firstName, string lastName, bool admin)
         {
             return GetWebserviceObjectAfterCall(string.Format("UpdateUser?userId={0}&firstName={1}&lastName={2}&admin={3}", userId, firstName, lastName, admin), typeof(User));
-        }
-
-        /***********************************************************/
-        // GetOrder - userId, orderId
-        /***********************************************************/
-        public static WebserviceObject kek(int userId, int orderId)
-        {
-            return GetWebserviceObjectAfterCall(string.Format("GetOrder?userId={0}&orderId={1}", userId, orderId), typeof(Order));
         }
 
         #endregion

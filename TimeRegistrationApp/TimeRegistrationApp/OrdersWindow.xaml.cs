@@ -31,6 +31,11 @@ namespace TimeRegistrationApp
             this.mainWindow = mainWindow;
             this.user = user;
 
+            GetOrders();
+        }
+
+        public void GetOrders()
+        {
             WebserviceObject wsObj = WebserviceCalls.GetOrders(user.UserId);
 
             List<Order> orderList = new List<Order>();
@@ -45,14 +50,14 @@ namespace TimeRegistrationApp
 
             ObservableCollection<object> oList;
             oList = new ObservableCollection<object>(orderList);
-            
+
             dgOrders.ItemsSource = oList;
         }
 
         private void dgOrders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGridRow row = sender as DataGridRow;
-            
+
             ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
 
             Order order = (Order)list[row.GetIndex()];
@@ -62,6 +67,9 @@ namespace TimeRegistrationApp
 
         private void dgOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (dgOrders.SelectedIndex == -1)
+                return;
+
             ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
 
             Order order = (Order)list[dgOrders.SelectedIndex];
@@ -72,6 +80,7 @@ namespace TimeRegistrationApp
                 rwLeader.Height = new GridLength(0, GridUnitType.Pixel);
             else
                 rwLeader.Height = new GridLength(30, GridUnitType.Pixel);
+
         }
 
         private void btnAdministrateRoles_Click(object sender, RoutedEventArgs e)
@@ -81,6 +90,12 @@ namespace TimeRegistrationApp
             var order = (Order)list[dgOrders.SelectedIndex];
 
             AdministrateRolesWindow window = new AdministrateRolesWindow(this, order, user);
+            window.ShowDialog();
+        }
+
+        private void btnCreateOrder_Click(object sender, RoutedEventArgs e)
+        {
+            CreateOrderWindow window = new CreateOrderWindow(this, user);
             window.ShowDialog();
         }
     }

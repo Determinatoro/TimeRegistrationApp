@@ -56,6 +56,8 @@ namespace TimeRegistrationApp
             oList = new ObservableCollection<object>(orderRoleList);            
 
             dgOrderRoles.ItemsSource = oList;
+
+            ordersWindow.GetOrders();
         }
 
         private void dgOrderRoles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
