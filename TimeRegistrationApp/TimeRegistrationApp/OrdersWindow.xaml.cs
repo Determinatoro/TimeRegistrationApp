@@ -77,9 +77,9 @@ namespace TimeRegistrationApp
             var leader = order.RolesListFormatted.Where(x => x.Leader == true).ToList();
 
             if (leader.Count == 0)
-                rwLeader.Height = new GridLength(0, GridUnitType.Pixel);
+                btnAdministrateRoles.Visibility = Visibility.Hidden;
             else
-                rwLeader.Height = new GridLength(30, GridUnitType.Pixel);
+                btnAdministrateRoles.Visibility = Visibility.Visible;
 
         }
 

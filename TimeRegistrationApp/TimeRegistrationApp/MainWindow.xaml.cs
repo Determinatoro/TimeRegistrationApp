@@ -511,8 +511,11 @@ namespace TimeRegistrationApp
         /***********************************************************/
         private void btnAdminControls_click(object sender, RoutedEventArgs e)
         {
-            AdminWindow adminWindow = new AdminWindow();
-            adminWindow.ShowDialog();
+            AdminControlWindow adminControlWindow = new AdminControlWindow();
+            adminControlWindow.ShowDialog();
+
+            //AdminWindow adminWindow = new AdminWindow();
+            //adminWindow.ShowDialog();
         }
 
         #endregion

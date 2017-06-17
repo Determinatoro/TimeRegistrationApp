@@ -78,11 +78,20 @@
     <Compile Include="AdminUserWindow.xaml.cs">
       <DependentUpon>AdminUserWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateCustomerWindow.xaml.cs">
+      <DependentUpon>CreateCustomerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CreateOrderRelationWindow.xaml.cs">
       <DependentUpon>CreateOrderRelationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreateOrderWindow.xaml.cs">
       <DependentUpon>CreateOrderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateRoleWindow.xaml.cs">
+      <DependentUpon>CreateRoleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateUserWindow.xaml.cs">
+      <DependentUpon>CreateUserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="NoteWindow.xaml.cs">
       <DependentUpon>NoteWindow.xaml</DependentUpon>
@@ -125,11 +134,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CreateCustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateOrderRelationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateOrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateRoleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

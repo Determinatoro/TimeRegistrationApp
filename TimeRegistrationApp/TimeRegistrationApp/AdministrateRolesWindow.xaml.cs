@@ -80,7 +80,7 @@ namespace TimeRegistrationApp
 
         private void btnDeleteOrderRole_Click(object sender, RoutedEventArgs e)
         {
-            /*ObservableCollection<object> list = (ObservableCollection<object>)dgOrderRoles.ItemsSource;
+            ObservableCollection<object> list = (ObservableCollection<object>)dgOrderRoles.ItemsSource;
 
             var orderRole = (OrderRole)list[dgOrderRoles.SelectedIndex];
 
@@ -89,12 +89,11 @@ namespace TimeRegistrationApp
             if (wsObj.Success)
             {
                 GetOrderRoles();
+                ordersWindow.GetOrders();
             }
             else
                 MessageBox.Show(wsObj.Response.ToString());
-
     
-    */
         }
     }
 }

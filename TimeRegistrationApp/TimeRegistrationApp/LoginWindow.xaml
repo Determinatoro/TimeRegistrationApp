@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRegistrationApp"
         mc:Ignorable="d"
-       Title="Login" Height="200" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+       Title="TimeRegitrationApp - Login" Height="200" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
         <Image Source="Resources/background.png" Stretch="Fill"/>
         <Grid 

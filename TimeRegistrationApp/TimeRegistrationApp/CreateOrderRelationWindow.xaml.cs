@@ -93,8 +93,7 @@ namespace TimeRegistrationApp
             var role = (Role)list[dgRoles.SelectedIndex];            
 
             if (orderRole != null)
-            {
-                /*
+            {                
                 var wsObj = WebserviceCalls.UpdateOrderRole(orderRole.OrderRoleId, order.OrderId, user.UserId, role.RoleId);
 
                 if (wsObj.Success)
@@ -103,7 +102,7 @@ namespace TimeRegistrationApp
                     Close();
                 }
                 else
-                    MessageBox.Show(wsObj.Response.ToString());*/
+                    MessageBox.Show(wsObj.Response.ToString());
             }
             else
             {

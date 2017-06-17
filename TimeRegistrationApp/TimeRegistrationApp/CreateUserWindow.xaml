@@ -1,0 +1,78 @@
+﻿<Window x:Class="TimeRegistrationApp.CreateUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeRegistrationApp"
+        mc:Ignorable="d"
+        Title="TimeRegistrationApp - User" Height="210" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+    <Grid>
+        <Image Source="Resources/background.png" Stretch="Fill"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Name="rowPassword" Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <!--FIRSTNAME-->
+            <TextBox 
+                Name="tbFirstName"
+                Margin="1"                
+                BorderBrush="#444444"
+                Tag="Firstname"                
+                Style="{StaticResource styleTextBoxWaterMark}"
+                />
+
+            <!--LASTNAME-->
+            <TextBox 
+                Name="tbLastname"
+                Margin="1"  
+                Grid.Row="1"
+                BorderBrush="#444444"
+                Tag="Lastname"                
+                Style="{StaticResource styleTextBoxWaterMark}"
+                />
+
+            <!--PASSWORD-->
+            <TextBox 
+                Name="tbPassword"
+                Margin="1"  
+                Grid.Row="2"
+                BorderBrush="#444444"
+                Tag="Password"                
+                Style="{StaticResource styleTextBoxWaterMark}"
+                />
+
+            <!--CUSTOMER-->
+            <ComboBox 
+                Name="cbbAdmin"
+                Tag="Admin"
+                FontSize="14"
+                Foreground="#444444"
+                Margin="1"
+                Grid.Row="3"
+                Style="{StaticResource styleComboBox}"
+                />
+
+            <!--CREATE-->
+            <Button
+                Name="btnCreate"
+                Margin="1"
+                FontSize="14"
+                Grid.Row="5"
+                BorderBrush="#444444"
+                Content="Create"
+                Foreground="#444444"
+                Background="{StaticResource brushGrayBackground}"
+                Style="{StaticResource styleButton}" 
+                Click="btnCreate_Click"                    
+                    />
+
+        </Grid>
+    </Grid>
+</Window>

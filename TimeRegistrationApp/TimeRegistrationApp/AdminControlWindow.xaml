@@ -5,8 +5,389 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRegistrationApp"
         mc:Ignorable="d"
-        Title="AdminControlWindow" Height="300" Width="300">
+        Title="TimeRegistrationApp - Admin control" Height="500" Width="900" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     <Grid>
-        
+        <Image Source="Resources/background.png" Stretch="Fill"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <!--MANAGE USERS-->
+                <Button
+                    Name="btnManageUsers"
+                    Margin="1"
+                    FontSize="14"                    
+                    BorderBrush="#444444"
+                    Content="Manage users"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnManageUsers_Click" 
+                    />
+
+                <!--MANAGE CUSTOMERS-->
+                <Button
+                    Name="btnManageCustomers"
+                    Margin="1"
+                    FontSize="14"                    
+                    Grid.Row="1"
+                    BorderBrush="#444444"
+                    Content="Manage customers"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnManageCustomers_Click" 
+                    />
+
+                <!--MANAGE ROLES-->
+                <Button
+                    Name="btnManageRoles"
+                    Margin="1"
+                    FontSize="14"        
+                    Grid.Row="2"
+                    BorderBrush="#444444"
+                    Content="Manage roles"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnManageRoles_Click" 
+                    />
+
+                <!--MANAGE TIMEREGISTRATION-->
+                <Button
+                    Name="btnManageTimeregistrations"
+                    Margin="1"
+                    FontSize="14"                    
+                    Grid.Row="3"
+                    BorderBrush="#444444"
+                    Content="Manage timeregistrations"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" 
+                    />
+
+            </Grid>
+
+            <Grid Name="gridUsers"
+                  Grid.Column="1"
+                  Visibility="Hidden"
+                  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <!--SEARCH USERS-->
+                <TextBox 
+                     Name="tbSearchUsers"
+                     Margin="1"                
+                     BorderBrush="#444444"
+                     Tag="Search users"          
+                     TextChanged="tbSearchUsers_TextChanged"
+                     Style="{StaticResource styleTextBoxWaterMark}"
+                     />
+
+                <!--RESET PASSWORD-->
+                <Button
+                    Name="btnResetPassword"
+                    Margin="1"
+                    FontSize="14"
+                    Grid.Row="100"
+                    BorderBrush="#444444"
+                    Content="Reset password"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnResetPassword_Click"                    
+                    />
+
+                <!--RESET PASSWORD-->
+                <Button
+                    Name="btnCreateUser"
+                    Margin="1"
+                    Grid.Column="100"
+                    FontSize="14"
+                    Grid.Row="100"
+                    BorderBrush="#444444"
+                    Content="Create user"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnCreateUser_Click"                    
+                    />
+
+                <DataGrid
+                    Name="dgUsers"                    
+                    Margin="1"     
+                    Grid.Row="1"
+                    Grid.ColumnSpan="100"
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"                
+                    >
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick" Handler="dgUsers_MouseDoubleClick"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <!--Columns-->
+                    <DataGrid.Columns>
+                        <!--ID-->
+                        <DataGridTemplateColumn Header="ID" IsReadOnly="True" Width="0.5*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Content="{Binding Path=UserId}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Username-->
+                        <DataGridTemplateColumn Header="Username" IsReadOnly="True" Width="0.75*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Username}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--FirstName-->
+                        <DataGridTemplateColumn Header="Firstname" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=FirstName}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Lastname-->
+                        <DataGridTemplateColumn Header="Lastname" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=LastName}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Admin-->
+                        <DataGridTemplateColumn Header="Admin" IsReadOnly="True" Width="0.5*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Admin}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+
+            <Grid Name="gridCustomers"
+                  Grid.Column="1"
+                  Visibility="Hidden"
+                  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <!--SEARCH CUSTOMERS-->
+                <TextBox 
+                     Name="tbSearchCustomers"
+                     Margin="1"                
+                     BorderBrush="#444444"
+                     Tag="Search customers"     
+                    TextChanged="tbSearchCustomers_TextChanged"
+                     Style="{StaticResource styleTextBoxWaterMark}"
+                     />
+
+                <!--CREATE CUSTOMER-->
+                <Button
+                    Name="btnCreateCustomer"
+                    Margin="1"
+                    Grid.Column="100"
+                    FontSize="14"
+                    Grid.Row="100"
+                    BorderBrush="#444444"
+                    Content="Create customer"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}"
+                    Click="btnCreateCustomer_Click"
+                    />
+
+                <DataGrid
+                    Name="dgCustomers"                    
+                    Margin="1"     
+                    Grid.Row="1"
+                    Grid.ColumnSpan="100"
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"                
+                    >
+                    <!--Columns-->
+                    <DataGrid.Columns>
+                        <!--ID-->
+                        <DataGridTemplateColumn Header="ID" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Content="{Binding Path=CustomerId}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Customer name-->
+                        <DataGridTemplateColumn Header="Customer name" IsReadOnly="True" Width="5*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Name}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+
+            <Grid Name="gridRoles"
+                  Grid.Column="1"
+                  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <!--SEARCH ROLES-->
+                <TextBox 
+                     Name="tbSearchRoles"
+                     Margin="1"                
+                     BorderBrush="#444444"
+                     Tag="Search roles"             
+                    TextChanged="tbSearchRoles_TextChanged"
+                     Style="{StaticResource styleTextBoxWaterMark}"
+                     />
+
+                <!--CREATE ROLE-->
+                <Button
+                    Name="btnCreateRole"
+                    Margin="1"
+                    Grid.Column="100"
+                    FontSize="14"
+                    Grid.Row="100"
+                    BorderBrush="#444444"
+                    Content="Create role"
+                    Foreground="#444444"
+                    Background="{StaticResource brushGrayBackground}"
+                    Style="{StaticResource styleButton}" Click="btnCreateRole_Click"                    
+                    />
+
+                <DataGrid
+                    Name="dgRoles"                    
+                    Margin="1"     
+                    Grid.Row="1"
+                    Grid.ColumnSpan="100"
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"                
+                    >
+                    <!--Columns-->
+                    <DataGrid.Columns>
+                        <!--ID-->
+                        <DataGridTemplateColumn Header="ID" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Content="{Binding Path=RoleId}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Customer name-->
+                        <DataGridTemplateColumn Header="Role name" IsReadOnly="True" Width="5*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Name}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Leader-->
+                        <DataGridTemplateColumn Header="Leader" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Leader}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+
+        </Grid>
     </Grid>
 </Window>
+

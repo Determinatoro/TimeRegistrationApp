@@ -1,0 +1,45 @@
+﻿<Window x:Class="TimeRegistrationApp.CreateRoleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TimeRegistrationApp"
+        mc:Ignorable="d"
+        Title="TimeRegistrationApp - Role" Height="120" Width="250" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+    <Grid>
+        <Image Source="Resources/background.png" Stretch="Fill"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <!--NAME-->
+            <TextBox 
+                Name="tbRoleName"
+                Margin="1"                
+                BorderBrush="#444444"
+                Tag="Name"                
+                Style="{StaticResource styleTextBoxWaterMark}"
+                />
+
+            <!--CREATE-->
+            <Button
+                Name="btnCreate"
+                Margin="1"
+                FontSize="14"
+                Grid.Row="5"
+                BorderBrush="#444444"
+                Content="Create"
+                Foreground="#444444"
+                Background="{StaticResource brushGrayBackground}"
+                Style="{StaticResource styleButton}" 
+                Click="btnCreate_Click"                    
+                    />
+
+        </Grid>
+    </Grid>
+</Window>
+
