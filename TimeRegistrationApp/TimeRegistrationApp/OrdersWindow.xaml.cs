@@ -87,6 +87,12 @@ namespace TimeRegistrationApp
 
         private void btnAdministrateRoles_Click(object sender, RoutedEventArgs e)
         {
+            if (dgOrders.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an order");
+                return;
+            }
+
             ObservableCollection<object> list = (ObservableCollection<object>)dgOrders.ItemsSource;
 
             var order = (Order)list[dgOrders.SelectedIndex];
