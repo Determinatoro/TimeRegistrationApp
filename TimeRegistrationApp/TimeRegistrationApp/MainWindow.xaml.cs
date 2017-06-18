@@ -319,15 +319,17 @@ namespace TimeRegistrationApp
         // "Start / Continue" click
         /***********************************************************/
         private void btnStartContinue_Click(object sender, RoutedEventArgs e)
-        {
+        {           
             ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
 
-            var tr = list[0];
+            if (list.Count > 0) {
+                var tr = list[0];
 
-            if (tr.EndTime == "")
-            {
-                MessageBox.Show("Please end your current time registration first");
-                return;
+                if (tr.EndTime == "")
+                {
+                    MessageBox.Show("Please end your current time registration first");
+                    return;
+                }
             }
 
             if (order == null)
