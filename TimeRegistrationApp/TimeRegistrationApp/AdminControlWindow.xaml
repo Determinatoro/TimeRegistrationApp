@@ -63,15 +63,16 @@
 
                 <!--MANAGE TIMEREGISTRATION-->
                 <Button
-                    Name="btnManageTimeregistrations"
+                    Name="btnManageTimeregistrationsOnOrder"
                     Margin="1"
                     FontSize="14"                    
                     Grid.Row="3"
                     BorderBrush="#444444"
-                    Content="Manage timeregistrations"
+                    Content="See time registrated on order"
                     Foreground="#444444"
                     Background="{StaticResource brushGrayBackground}"
                     Style="{StaticResource styleButton}" 
+                    Click="btnManageTimeregistrationsOnOrder_Click" 
                     />
 
             </Grid>
@@ -296,6 +297,7 @@
 
             <Grid Name="gridRoles"
                   Grid.Column="1"
+                  Visibility="Hidden"
                   >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -387,6 +389,89 @@
 
             </Grid>
 
+            <Grid Name="gridTimeRegistrationsOnOrder"
+                  Grid.Column="1"
+                  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>                    
+                </Grid.RowDefinitions>
+
+                <!--SEARCH ROLES-->
+                <TextBox 
+                     Name="tbSearchOrders"
+                     Margin="1"                
+                     BorderBrush="#444444"
+                     Tag="Search orders" 
+                    TextChanged="tbSearchOrders_TextChanged"
+                     Style="{StaticResource styleTextBoxWaterMark}"
+                     />
+
+                <DataGrid
+                    Name="dgOrdersTime"                    
+                    Margin="1"     
+                    Grid.Row="1"
+                    Grid.ColumnSpan="100"
+                    Background="Transparent"
+                    RowHeaderWidth="0"
+                    AutoGenerateColumns="False"   
+                    CanUserReorderColumns="False"   
+                    CanUserResizeColumns="False"   
+                    CanUserResizeRows="False"   
+                    CanUserAddRows="false"
+                    CanUserSortColumns="False"   
+                    SelectionMode="Single"                
+                    >
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick" Handler="dgOrdersTime_MouseDoubleClick"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <!--Columns-->
+                    <DataGrid.Columns>
+                        <!--ID-->
+                        <DataGridTemplateColumn Header="ID" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Content="{Binding Path=OrderId}"                                                                                     
+                                        BorderBrush="#444444"                                                   
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Order name-->
+                        <DataGridTemplateColumn Header="Order name" IsReadOnly="True" Width="3*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=OrderName}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--Description-->
+                        <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="3*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        BorderBrush="#444444"                                        
+                                        Content="{Binding Path=Description}"
+                                        />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+            
         </Grid>
     </Grid>
 </Window>

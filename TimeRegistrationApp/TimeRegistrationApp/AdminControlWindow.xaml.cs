@@ -24,6 +24,8 @@ namespace TimeRegistrationApp
         private List<User> usersList = new List<User>();
         private List<Customer> customersList = new List<Customer>();
         private List<Role> rolesList = new List<Role>();
+        private List<Order> ordersTimeList = new List<Order>();
+        private List<User> usersTimeList = new List<User>();
 
         public AdminControlWindow()
         {
@@ -43,6 +45,7 @@ namespace TimeRegistrationApp
             gridUsers.Visibility = Visibility.Visible;
             gridCustomers.Visibility = Visibility.Hidden;
             gridRoles.Visibility = Visibility.Hidden;
+            gridTimeRegistrationsOnOrder.Visibility = Visibility.Hidden;
         }
 
         private void btnManageCustomers_Click(object sender, RoutedEventArgs e)
@@ -54,6 +57,7 @@ namespace TimeRegistrationApp
             gridUsers.Visibility = Visibility.Hidden;
             gridCustomers.Visibility = Visibility.Visible;
             gridRoles.Visibility = Visibility.Hidden;
+            gridTimeRegistrationsOnOrder.Visibility = Visibility.Hidden;
         }
 
         private void btnManageRoles_Click(object sender, RoutedEventArgs e)
@@ -65,6 +69,71 @@ namespace TimeRegistrationApp
             gridUsers.Visibility = Visibility.Hidden;
             gridCustomers.Visibility = Visibility.Hidden;
             gridRoles.Visibility = Visibility.Visible;
+            gridTimeRegistrationsOnOrder.Visibility = Visibility.Hidden;
+        }
+
+        private void btnManageTimeregistrationsOnOrder_Click(object sender, RoutedEventArgs e)
+        {
+            Title = "TimeRegistrationApp - See time registrated on order";
+
+            GetOrders();
+
+            gridUsers.Visibility = Visibility.Hidden;
+            gridCustomers.Visibility = Visibility.Hidden;
+            gridRoles.Visibility = Visibility.Hidden;
+            gridTimeRegistrationsOnOrder.Visibility = Visibility.Visible;
+        }
+
+        #endregion
+
+        #region Timeregistrations on order
+
+        public void GetOrders()
+        {
+            WebserviceObject wsObj = WebserviceCalls.GetOrdersAdmin();
+
+            List<Order> ordersTimeList = new List<Order>();
+
+            if (wsObj.Success)
+            {
+                foreach (Order obj in (List<object>)wsObj.Response)
+                    ordersTimeList.Add(obj);
+            }
+            else
+                MessageBox.Show(wsObj.Response.ToString());
+
+            this.ordersTimeList = ordersTimeList;
+
+            ObservableCollection<object> oList;
+            oList = new ObservableCollection<object>(ordersTimeList);
+
+            dgOrdersTime.ItemsSource = oList;
+        }
+
+        private void dgOrdersTime_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGridRow row = sender as DataGridRow;
+
+            ObservableCollection<object> list = (ObservableCollection<object>)dgOrdersTime.ItemsSource;
+
+            var order = (Order)list[row.GetIndex()];
+
+            TimeRegistratedWindow window = new TimeRegistratedWindow(order);
+            window.ShowDialog();
+        }
+
+        private void tbSearchOrders_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+
+            string t = tb.Text.ToLower();
+
+            var temp = ordersTimeList.Where(o => o.OrderName.ToLower().Contains(t) || o.Description.ToLower().Contains(t));
+
+            ObservableCollection<object> oList;
+            oList = new ObservableCollection<object>(temp);
+
+            dgOrdersTime.ItemsSource = oList;
         }
 
         #endregion
@@ -232,5 +301,7 @@ namespace TimeRegistrationApp
 
 
         #endregion
+
+        
     }
 }

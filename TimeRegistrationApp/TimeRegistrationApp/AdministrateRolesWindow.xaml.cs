@@ -80,6 +80,12 @@ namespace TimeRegistrationApp
 
         private void btnDeleteOrderRole_Click(object sender, RoutedEventArgs e)
         {
+            if (dgOrderRoles.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an order relation");
+                return;
+            }
+
             ObservableCollection<object> list = (ObservableCollection<object>)dgOrderRoles.ItemsSource;
 
             var orderRole = (OrderRole)list[dgOrderRoles.SelectedIndex];

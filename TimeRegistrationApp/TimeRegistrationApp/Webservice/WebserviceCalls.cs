@@ -174,6 +174,14 @@ namespace TimeRegistrationApp.Webservice
         }
 
         /***********************************************************/
+        // GetOrdersAdmin - No parameters
+        /***********************************************************/
+        public static WebserviceObject GetOrdersAdmin()
+        {
+            return GetWebserviceObjectAfterCall("GetOrdersAdmin", typeof(Order));
+        }
+
+        /***********************************************************/
         // GetOrders - userId, orderId
         /***********************************************************/
         public static WebserviceObject GetOrder(int userId, int orderId)
@@ -371,6 +379,14 @@ namespace TimeRegistrationApp.Webservice
         public static WebserviceObject UpdateUser(int userId, string firstName, string lastName, bool admin)
         {
             return GetWebserviceObjectAfterCall(string.Format("UpdateUser?userId={0}&firstName={1}&lastName={2}&admin={3}", userId, firstName, lastName, admin), typeof(User));
+        }
+
+        /***********************************************************/
+        // GET TIME REGISTRATED PER USER ON ORDER - orderId
+        /***********************************************************/
+        public static WebserviceObject GetTimeRegistratedPerUserOnOrder(int orderId)
+        {
+            return GetWebserviceObjectAfterCall(string.Format("GetTimeRegistratedPerUserOnOrder?orderId={0}", orderId), typeof(TimeRegistrated));
         }
 
         #endregion

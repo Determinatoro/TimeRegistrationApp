@@ -52,6 +52,8 @@ namespace TimeRegistrationApp
             oList = new ObservableCollection<object>(orderList);
 
             dgOrders.ItemsSource = oList;
+
+            dgOrders_SelectionChanged(null, null);
         }
 
         private void dgOrders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
