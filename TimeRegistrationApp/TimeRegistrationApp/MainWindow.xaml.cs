@@ -476,25 +476,34 @@ namespace TimeRegistrationApp
         /***********************************************************/
         private void btnDeleteTimeRegistration_Click(object sender, RoutedEventArgs e)
         {
-            // Has there been selected a row
-            if (dgTimeRegistrations.SelectedIndex == -1)
+            bool warningBoxAnswer = false;
+
+            MessageBoxResult result = MessageBox.Show("Do you truly wish to delete this?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes) // check if he made a mistake.
             {
-                MessageBox.Show("Please select a time registration");
-                return;
+                // Has there been selected a row
+                if (dgTimeRegistrations.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a time registration");
+                    return;
+                }
+
+                // Get the selected row object
+                ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
+
+                var tr = list[dgTimeRegistrations.SelectedIndex];
+
+                // Delete the object
+                var wsObj = WebserviceCalls.DeleteTimeRegistration(tr.TimeRegId);
+
+                if (wsObj.Success)
+                    GetTimeRegistrations();
+                else
+                    MessageBox.Show(wsObj.Response.ToString());
+            } else
+            {
+                // it was a mistake so don't do anything.
             }
-
-            // Get the selected row object
-            ObservableCollection<TimeRegistration> list = (ObservableCollection<TimeRegistration>)dgTimeRegistrations.ItemsSource;
-
-            var tr = list[dgTimeRegistrations.SelectedIndex];
-
-            // Delete the object
-            var wsObj = WebserviceCalls.DeleteTimeRegistration(tr.TimeRegId);
-            
-            if (wsObj.Success)                
-                GetTimeRegistrations();
-            else
-                MessageBox.Show(wsObj.Response.ToString());
         }
 
         #endregion

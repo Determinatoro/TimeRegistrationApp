@@ -48,16 +48,25 @@
                 Style="{StaticResource styleTextBoxWaterMark}"
                 />
 
-            <!--CUSTOMER-->
-            <ComboBox 
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!--CUSTOMER-->
+                <ComboBox 
                 Name="cbbAdmin"
-                Tag="Admin"
                 FontSize="14"
                 Foreground="#444444"
                 Margin="1"
-                Grid.Row="3"
+                Grid.Column="2"
                 Style="{StaticResource styleComboBox}"
                 />
+
+                <Label Margin="3,0,0,0"  Content="Admin:"></Label>
+
+            </Grid>    
 
             <!--CREATE-->
             <Button

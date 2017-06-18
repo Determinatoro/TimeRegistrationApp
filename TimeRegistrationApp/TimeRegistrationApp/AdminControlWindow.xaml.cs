@@ -300,8 +300,12 @@ namespace TimeRegistrationApp
 
 
 
+
         #endregion
 
-        
+        private void btnGoBack_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

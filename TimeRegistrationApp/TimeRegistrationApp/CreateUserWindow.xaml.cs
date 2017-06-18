@@ -33,6 +33,7 @@ namespace TimeRegistrationApp
             this.resetPassword = resetPassword;
 
             string[] admin = new string[] { "True", "False" };
+            cbbAdmin.SelectedIndex = 1;
             cbbAdmin.ItemsSource = admin;
 
             if (user != null)
@@ -48,6 +49,7 @@ namespace TimeRegistrationApp
 
                 rowPassword.Height = new GridLength(0, GridUnitType.Pixel);
                 this.Height = 180;
+
                 btnCreate.Content = "Update user";
             }
 
